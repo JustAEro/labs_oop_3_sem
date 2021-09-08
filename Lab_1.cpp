@@ -170,7 +170,8 @@ int Lab_1::criterium(int x)
 
 int* Lab_1::form_vector(Lab_1::Matrix*& matrix_ptr, int (*criterium)(int))
 {
-    if (matrix_ptr == nullptr) {
+    if (matrix_ptr == nullptr) 
+    {
         return nullptr;
     }
 
@@ -184,10 +185,6 @@ int* Lab_1::form_vector(Lab_1::Matrix*& matrix_ptr, int (*criterium)(int))
         return nullptr;
     }
 
-    if (matrix_ptr == nullptr)
-    {
-        return nullptr;
-    }
 
     int index_start = 0;
     int index_finish = 0;
