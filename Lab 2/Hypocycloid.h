@@ -11,22 +11,9 @@ namespace Prog2
 		double y;
 	};
 
-	double dist(const Point& a, const Point& b)   //distance between 2 points
-	{
-		double dx = a.x - b.x;
-		double dy = a.y - b.y;
-		double res = sqrt(dx * dx + dy * dy);
-		return res;
-	}
+	double dist(const Point& a, const Point& b);   //distance between 2 points
 
-	bool checkInternalTouch(int rad1, int rad2, const Point& p1, const Point& p2)
-	{
-		if (rad1 > rad2 || abs(dist(p1, p2) - (rad1 - rad2)) < eps)
-		{
-			return true;
-		}
-		return false;
-	}
+	bool checkInternalTouch(double rad1, double rad2, const Point& p1, const Point& p2);
 
 	class Hypocycloid
 	{
@@ -72,4 +59,3 @@ namespace Prog2
 	};
 
 }
-

@@ -8,6 +8,23 @@
 
 namespace Prog2 
 {
+	double dist(const Point& a, const Point& b)
+	{
+		double dx = a.x - b.x;
+		double dy = a.y - b.y;
+		double res = sqrt(dx * dx + dy * dy);
+		return res;
+	}
+
+	bool checkInternalTouch(double rad1, double rad2, const Point& p1, const Point& p2)
+	{
+		if (rad1 > rad2 || abs(dist(p1, p2) - (rad1 - rad2)) < eps)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	Hypocycloid::Hypocycloid()
 	{
 		r1 = 2.0;
