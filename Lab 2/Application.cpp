@@ -7,7 +7,92 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-    
+    Prog2::Hypocycloid hp;
+    Prog2::Point p1, p2, p3;
+    double rad1, rad2;
+    bool flag1 = true;
+
+    while (flag1)
+    {
+        std::cout << "Your hypocycloid is:" << std::endl;
+
+        std::cout << "The type of your hypocicloid is: ";
+
+        int type = hp.typeOfHypocycloid();
+        if (type == Prog2::Hypocycloid::SIMPLE) 
+        {
+            std::cout << "simple" << std::endl;
+        }
+        else if (type == Prog2::Hypocycloid::LONG)
+        {
+            std::cout << "long" << std::endl;
+        }
+        else
+        {
+            std::cout << "short" << std::endl;
+        }
+
+        std::cout << "Center of big circle: ";
+        std::cout << "{" << hp.getC1().x << " , " << hp.getC1().y << "}" << std::endl;
+        std::cout << "Radius of big circle: ";
+        std::cout << hp.getR1() << std::endl;
+
+
+        std::cout << "Center of small circle: ";
+        std::cout << "{" << hp.getC2().x << " , " << hp.getC2().y << "}" << std::endl;
+        std::cout << "Radius of small circle: ";
+        std::cout << hp.getR2() << std::endl;
+
+        std::cout << "The coordinates of rolling point: ";
+        std::cout << "{" << hp.getRollingPoint().x << " , " << hp.getRollingPoint().y << "}" << std::endl;
+
+        bool flag2 = true;
+
+        while (flag2)
+        {
+            std::cout << "Enter angle t in radians to calculate curve radius of t, hypocycloid point of t and sectorial area of t, or press Ctrl+Z to quit:" << std::endl;
+            double t;
+            std::cin >> t;
+            
+            flag2 = std::cin.good();
+
+            if (!flag2) 
+            {
+                continue;
+            }
+
+            std::cout << "Curve radius of t: " << hp.curvRadiusOfAngle(t) << std::endl;
+            std::cout << "Hypocycloid point of t: " << "{" << hp.pointOfAngle(t).x << " , " << hp.pointOfAngle(t).y << "}" << std::endl;
+            std::cout << "Sectorial area of t: " << hp.sectorialArea(t) << std::endl;
+
+        }
+
+        std::cin.clear();
+        std::cout << "Enter x of new center of big circle, y of big circle, radius of big circle, the same for small cirle, and x, y of rolling point or press Ctrl+Z to quit:" << std::endl;
+        std::cin >> p1.x >> p1.y >> rad1 >> p2.x >> p2.y >> rad2 >> p3.x >> p3.y;
+
+        if (std::cin.good())
+        {
+            hp.setRollingPoint(p3);
+
+            try
+            {
+                hp.setR1R2C1C2(rad1, rad2, p1, p2);
+            }
+
+            catch (std::exception& ex)
+            {
+                std::cout << ex.what() << std::endl;
+            }
+        }
+
+        else
+        {
+            flag1 = false;
+        }
+    }
+
+    return 0;
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
