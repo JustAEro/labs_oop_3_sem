@@ -17,7 +17,7 @@ int _tmain(int argc, _TCHAR* argv[])
         std::cout << "Your hypocycloid is:" << std::endl;
 
         std::cout << "The type of your hypocicloid is: ";
-
+       
         int type = hp.typeOfHypocycloid();
         if (type == Prog2::Hypocycloid::SIMPLE) 
         {
@@ -73,7 +73,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
         if (std::cin.good())
         {
-            hp.setRollingPoint(p3);
+            bool flag3 = true;
 
             try
             {
@@ -83,6 +83,12 @@ int _tmain(int argc, _TCHAR* argv[])
             catch (std::exception& ex)
             {
                 std::cout << ex.what() << std::endl;
+                flag3 = false;
+            }
+
+            if (flag3)
+            {
+                hp.setRollingPoint(p3);
             }
         }
 

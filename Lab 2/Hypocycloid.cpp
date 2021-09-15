@@ -39,12 +39,12 @@ namespace Prog2
 
 	Hypocycloid::Hypocycloid(const Point& p1, const Point& p2, const Point& roll, double rad1, double rad2)
 	{
-		if (rad1 < 0)
+		if (rad1 <= 0)
 		{
 			throw std::exception("invalid radius 1");
 		}
 
-		if (rad2 < 0)
+		if (rad2 <= 0)
 		{
 			throw std::exception("invalid radius 2");
 		}
@@ -69,7 +69,7 @@ namespace Prog2
 
 	Hypocycloid& Hypocycloid::setR1(double r)
 	{
-		if (r < 0) 
+		if (r <= 0) 
 		{
 			throw std::exception("invalid radius 1");
 		}
@@ -86,7 +86,7 @@ namespace Prog2
 
 	Hypocycloid& Hypocycloid::setR2(double r)
 	{
-		if (r < 0)
+		if (r <= 0)
 		{
 			throw std::exception("invalid radius 2");
 		}
@@ -102,11 +102,11 @@ namespace Prog2
 
 	Hypocycloid& Hypocycloid::setR1R2(double rad1, double rad2)
 	{
-		if (rad1 < 0)
+		if (rad1 <= 0)
 		{
 			throw std::exception("invalid radius 1");
 		}
-		if (rad2 < 0)
+		if (rad2 <= 0)
 		{
 			throw std::exception("invalid radius 2");
 		}
@@ -157,11 +157,11 @@ namespace Prog2
 
 	Hypocycloid& Hypocycloid::setR1R2C1C2(double rad1, double rad2, const Point& p1, const Point& p2)
 	{
-		if (rad1 < 0)
+		if (rad1 <= 0)
 		{
 			throw std::exception("invalid radius 1");
 		}
-		if (rad2 < 0)
+		if (rad2 <= 0)
 		{
 			throw std::exception("invalid radius 2");
 		}
