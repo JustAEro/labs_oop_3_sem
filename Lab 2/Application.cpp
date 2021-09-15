@@ -10,12 +10,11 @@ int _tmain(int argc, _TCHAR* argv[])
     Prog2::Hypocycloid hp;
     Prog2::Point p1, p2, p3;
     double rad1, rad2;
-    bool flag1 = true;
+    bool flag_exit_from_program = false;
 
-    while (flag1)
+    while (!flag_exit_from_program)
     {
         std::cout << "Your hypocycloid is:" << std::endl;
-
         std::cout << "The type of your hypocicloid is: ";
        
         int type = hp.typeOfHypocycloid();
@@ -46,19 +45,19 @@ int _tmain(int argc, _TCHAR* argv[])
         std::cout << "The coordinates of rolling point: ";
         std::cout << "{" << hp.getRollingPoint().x << " , " << hp.getRollingPoint().y << "}" << std::endl;
 
-        bool flag2 = true;
+        bool flag_wrong_parameter = false;
 
-        while (flag2)
+        while (!flag_wrong_parameter)
         {
             std::cout << "Enter angle t in radians to calculate curve radius of t, hypocycloid point of t and sectorial area of t, or press Ctrl+Z to quit:" << std::endl;
             double t;
             std::cin >> t;
             
-            flag2 = std::cin.good();
+            flag_wrong_parameter = !std::cin.good();
 
-            if (!flag2) 
+            if (flag_wrong_parameter) 
             {
-                continue;
+                break;
             }
 
             std::cout << "Curve radius of t: " << hp.curvRadiusOfAngle(t) << std::endl;
@@ -73,28 +72,23 @@ int _tmain(int argc, _TCHAR* argv[])
 
         if (std::cin.good())
         {
-            bool flag3 = true;
 
             try
             {
                 hp.setR1R2C1C2(rad1, rad2, p1, p2);
+                hp.setRollingPoint(p3);
             }
 
             catch (std::exception& ex)
             {
                 std::cout << ex.what() << std::endl;
-                flag3 = false;
-            }
-
-            if (flag3)
-            {
-                hp.setRollingPoint(p3);
+                std::cout << "Hypocycloid with this configuration doesn't exist! The previous hypocycloid is saved!" << std::endl;
             }
         }
 
         else
         {
-            flag1 = false;
+            flag_exit_from_program = true;
         }
     }
 
