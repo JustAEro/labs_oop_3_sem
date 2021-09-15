@@ -18,7 +18,7 @@ namespace Prog2
 
 	bool checkInternalTouch(double rad1, double rad2, const Point& p1, const Point& p2)
 	{
-		if (rad1 > rad2 || abs(dist(p1, p2) - (rad1 - rad2)) < eps)
+		if (rad1 > rad2 && abs(dist(p1, p2) - (rad1 - rad2)) < eps)
 		{
 			return true;
 		}
@@ -43,12 +43,18 @@ namespace Prog2
 		{
 			throw std::exception("invalid radius 1");
 		}
-		r1 = rad1;
 
 		if (rad2 < 0)
 		{
 			throw std::exception("invalid radius 2");
 		}
+
+		if (rad1 == rad2)
+		{
+			throw std::exception("invalid equal rads");
+		}
+
+		r1 = rad1;
 		r2 = rad2;
 
 		if ( !checkInternalTouch(rad1, rad2, p1, p2) )
@@ -94,6 +100,28 @@ namespace Prog2
 		return *this;
 	}
 
+	Hypocycloid& Hypocycloid::setR1R2(double rad1, double rad2)
+	{
+		if (rad1 < 0)
+		{
+			throw std::exception("invalid radius 1");
+		}
+		if (rad2 < 0)
+		{
+			throw std::exception("invalid radius 2");
+		}
+
+		r1 = rad1;
+		r2 = rad2;
+
+		if (!checkInternalTouch(r1, r2, c1, c2))
+		{
+			throw std::exception("no internal touch");
+		}
+		
+		return *this;
+	}
+
 	Hypocycloid& Hypocycloid::setC1(const Point& p1)
 	{
 		if (!checkInternalTouch(r1, r2, p1, c2))
@@ -112,6 +140,42 @@ namespace Prog2
 			throw std::exception("no internal touch");
 		}
 		c2 = p2;
+		return *this;
+	}
+
+	Hypocycloid& Hypocycloid::setC1C2(const Point& p1, const Point& p2)
+	{
+		if (!checkInternalTouch(r1, r2, p1, p2))
+		{
+			throw std::exception("no internal touch");
+		}
+		c1 = p1;
+		c2 = p2;
+		
+		return *this;
+	}
+
+	Hypocycloid& Hypocycloid::setR1R2C1C2(double rad1, double rad2, const Point& p1, const Point& p2)
+	{
+		if (rad1 < 0)
+		{
+			throw std::exception("invalid radius 1");
+		}
+		if (rad2 < 0)
+		{
+			throw std::exception("invalid radius 2");
+		}
+
+		if (!checkInternalTouch(rad1, rad2, p1, p2))
+		{
+			throw std::exception("no internal touch");
+		}
+		
+		r1 = rad1;
+		r2 = rad2;
+		c1 = p1;
+		c2 = p2;
+
 		return *this;
 	}
 	

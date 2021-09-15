@@ -24,8 +24,11 @@ namespace Prog2
 		//setters
 		Hypocycloid& setR1(double r);
 		Hypocycloid& setR2(double r);
+		Hypocycloid& setR1R2(double rad1, double rad2);
 		Hypocycloid& setC1(const Point& p1);
 		Hypocycloid& setC2(const Point& p2);
+		Hypocycloid& setC1C2(const Point& p1, const Point& p2);
+		Hypocycloid& setR1R2C1C2(double rad1, double rad2, const Point& p1, const Point& p2);
 		Hypocycloid& setRollingPoint(const Point& p) { rollingPoint = p; return *this; }
 
 		//getters
