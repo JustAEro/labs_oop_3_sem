@@ -7,9 +7,8 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-    Prog2::Hypocycloid hp;
-    Prog2::Point p1, p2, p3;
-    double rad1, rad2;
+    Hypocycloid hp;
+    double rad1, rad2, dist;
     bool flag_exit_from_program = false;
 
     while (!flag_exit_from_program)
@@ -17,12 +16,12 @@ int _tmain(int argc, _TCHAR* argv[])
         std::cout << "Your hypocycloid is:" << std::endl;
         std::cout << "The type of your hypocicloid is: ";
        
-        int type = hp.typeOfHypocycloid();
-        if (type == Prog2::Hypocycloid::SIMPLE) 
+        Hypocycloid::Types type = hp.typeOfHypocycloid();
+        if (type == Hypocycloid::Types::SIMPLE) 
         {
             std::cout << "simple" << std::endl;
         }
-        else if (type == Prog2::Hypocycloid::LONG)
+        else if (type == Hypocycloid::Types::LONG)
         {
             std::cout << "long" << std::endl;
         }
@@ -31,19 +30,10 @@ int _tmain(int argc, _TCHAR* argv[])
             std::cout << "short" << std::endl;
         }
 
-        std::cout << "Center of big circle: ";
-        std::cout << "{" << hp.getC1().x << " , " << hp.getC1().y << "}" << std::endl;
-        std::cout << "Radius of big circle: ";
-        std::cout << hp.getR1() << std::endl;
-
-
-        std::cout << "Center of small circle: ";
-        std::cout << "{" << hp.getC2().x << " , " << hp.getC2().y << "}" << std::endl;
-        std::cout << "Radius of small circle: ";
-        std::cout << hp.getR2() << std::endl;
-
-        std::cout << "The coordinates of rolling point: ";
-        std::cout << "{" << hp.getRollingPoint().x << " , " << hp.getRollingPoint().y << "}" << std::endl;
+        std::cout << "Radius of big circle: " << hp.getRadiusBig() << std::endl;
+        std::cout << "Radius of small circle: " << hp.getRadiusSmall() << std::endl;
+        std::cout << "Distance from center of small circle to rolling point: " << hp.getDistance() << std::endl;
+;
 
         bool flag_wrong_parameter = false;
 
@@ -69,16 +59,29 @@ int _tmain(int argc, _TCHAR* argv[])
         std::cin.clear();
         
 
-        std::cout << "Enter x of new center of big circle, y of big circle, radius of big circle, the same for small cirle, and x, y of rolling point or press Ctrl+Z to quit:" << std::endl;
-        std::cin >> p1.x >> p1.y >> rad1 >> p2.x >> p2.y >> rad2 >> p3.x >> p3.y;
+        std::cout << "Enter radius of new big circle, radius of new small cirle, and from center of small circle to rolling point or press Ctrl+Z to quit:" << std::endl;
+        std::cin >> rad1 >> rad2 >> dist;
 
         if (std::cin.good())
         {
-
             try
             {
-                hp.setR1R2C1C2(rad1, rad2, p1, p2);
-                hp.setRollingPoint(p3);
+                if (rad1 < hp.getRadiusBig())
+                {
+                    hp.setRadiusSmall(rad2);
+                    hp.setRadiusBig(rad1);
+                }
+
+                if (rad2 > hp.getRadiusSmall())
+                {
+                    hp.setRadiusBig(rad1);
+                    hp.setRadiusSmall(rad2);
+                }
+
+                hp.setRadiusBig(rad1);
+                hp.setRadiusSmall(rad2);
+                hp.setDistance(dist);
+                
             }
 
             catch (std::exception& ex)
