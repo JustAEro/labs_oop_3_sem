@@ -103,9 +103,13 @@ TEST(HypocicloidMethods, Setters)
 	ASSERT_ANY_THROW(hp.setR1R2C1C2(rad1, rad2, p1, p2));
 }
 
-TEST(HypocicloidMethods, Parameters)
+TEST(HypocicloidMethods, ParametersDefault)
 {
 	Prog2::Hypocycloid hp;
+
+	ASSERT_NEAR(0, hp.sectorialArea(0.5), Prog2::eps);
+	ASSERT_NEAR(0, hp.sectorialArea(-1), Prog2::eps);
+	ASSERT_NEAR(0, hp.sectorialArea(1), Prog2::eps);
 	ASSERT_EQ(Prog2::Hypocycloid::SIMPLE, hp.typeOfHypocycloid());
 
 	Prog2::Point p3 = { 3, 0 };
@@ -119,6 +123,21 @@ TEST(HypocicloidMethods, Parameters)
 	p3 = { 1, 0 };
 	hp.setRollingPoint(p3);
 	ASSERT_EQ(Prog2::Hypocycloid::SHORT, hp.typeOfHypocycloid());
+}
+
+TEST(HypocicloidMethods, Parameters)
+{
+	double rad1 = 3, rad2 = 2;
+	Prog2::Point p1 = {7, 0}, p2 = {8, 0}, p3 = {10, 0};
+	Prog2::Hypocycloid hp(p1, p2, p3, rad1, rad2);
+	
+
+	ASSERT_NEAR(-1.0116717, hp.pointOfAngle(6.5).x, Prog2::eps);
+	ASSERT_NEAR(0.431510, hp.pointOfAngle(6.5).y, Prog2::eps);
+
+	ASSERT_NEAR(7.21814, hp.curvRadiusOfAngle(1.5), Prog2::eps);
+
+	ASSERT_NEAR(-1.0093577, hp.sectorialArea(1.5), Prog2::eps);
 }
 
 int _tmain(int argc, _TCHAR* argv[]) 

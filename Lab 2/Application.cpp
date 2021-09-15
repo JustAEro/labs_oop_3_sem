@@ -67,6 +67,8 @@ int _tmain(int argc, _TCHAR* argv[])
         }
 
         std::cin.clear();
+        
+
         std::cout << "Enter x of new center of big circle, y of big circle, radius of big circle, the same for small cirle, and x, y of rolling point or press Ctrl+Z to quit:" << std::endl;
         std::cin >> p1.x >> p1.y >> rad1 >> p2.x >> p2.y >> rad2 >> p3.x >> p3.y;
 
