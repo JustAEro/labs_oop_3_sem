@@ -123,7 +123,7 @@ double Hypocycloid::sectorialArea(double t) const
 }
 
 
-Hypocycloid::Types Hypocycloid::typeOfHypocycloid() const 
+Hypocycloid::Types Hypocycloid::type() const 
 {
 	
 	if (abs(distance - radiusSmall) < eps)

@@ -37,7 +37,7 @@ public:
 		SHORT
 	};
 
-	Types typeOfHypocycloid() const;
+	Types type() const;
 
 		
 

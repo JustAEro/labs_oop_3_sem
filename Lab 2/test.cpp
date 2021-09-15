@@ -66,13 +66,13 @@ TEST(HypocicloidMethods, ParametersDefault)
 	ASSERT_NEAR(0, hp.sectorialArea(0.5), eps);
 	ASSERT_NEAR(0, hp.sectorialArea(-1), eps);
 	ASSERT_NEAR(0, hp.sectorialArea(1), eps);
-	ASSERT_EQ(Hypocycloid::Types::SIMPLE, hp.typeOfHypocycloid());
+	ASSERT_EQ(Hypocycloid::Types::SIMPLE, hp.type());
 
 	hp.setDistance(2);
-	ASSERT_EQ(Hypocycloid::Types::LONG, hp.typeOfHypocycloid());
+	ASSERT_EQ(Hypocycloid::Types::LONG, hp.type());
 
 	hp.setDistance(0.5);
-	ASSERT_EQ(Hypocycloid::Types::SHORT, hp.typeOfHypocycloid());
+	ASSERT_EQ(Hypocycloid::Types::SHORT, hp.type());
 }
 
 TEST(HypocicloidMethods, Parameters)

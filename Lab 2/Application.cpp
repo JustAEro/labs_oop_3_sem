@@ -16,7 +16,7 @@ int _tmain(int argc, _TCHAR* argv[])
         std::cout << "Your hypocycloid is:" << std::endl;
         std::cout << "The type of your hypocicloid is: ";
        
-        Hypocycloid::Types type = hp.typeOfHypocycloid();
+        Hypocycloid::Types type = hp.type();
         if (type == Hypocycloid::Types::SIMPLE) 
         {
             std::cout << "simple" << std::endl;
