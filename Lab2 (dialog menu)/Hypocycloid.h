@@ -13,7 +13,7 @@ class Hypocycloid
 {
 public:
 	Hypocycloid();
-	Hypocycloid(double radBig, double radSmall, double dist = 1.0);
+	Hypocycloid(double radBig, double radSmall = 1.0, double dist = 1.0);
 
 	//setters
 	Hypocycloid& setRadiusBig(double r);
