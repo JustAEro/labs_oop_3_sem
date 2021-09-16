@@ -19,6 +19,16 @@ TEST(HypocicloidConstructor, DefaultConstructor)
 	ASSERT_EQ(1.0, hp.getDistance());
 }
 
+TEST(HypocicloidConstructor, InitConstructorWithDefault)
+{
+	Hypocycloid hp(3);
+
+	ASSERT_EQ(3, hp.getRadiusBig());
+	ASSERT_EQ(1, hp.getRadiusSmall());
+	ASSERT_EQ(1, hp.getDistance());
+}
+
+
 TEST(HypocicloidConstructor, InitConstructor)
 {
 	Hypocycloid hp(5, 4, 4);
