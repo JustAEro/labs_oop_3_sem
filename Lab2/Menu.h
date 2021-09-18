@@ -47,9 +47,12 @@ template <typename T> int get_T(T& x)		//get argument of T type from std::cin
 			return -1;   //eof or fatal error
 		}
 
+
 		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
 		std::cin.clear();
+		//ignore incorrect input until the end of the stream or until the end of the line and clear flag of errors
+
 
 		std::cout << "You are wrong! Please, repeat input from incorrect token.\n";
 		std::cin >> x;
