@@ -39,19 +39,19 @@ int D_Hypocycloid_New(Hypocycloid*& hp)
 
 	try
 	{
-		hp_new = new Hypocycloid(rad1, rad2, dist);
+		hp_new = new Hypocycloid(rad1, rad2, dist);     //check if new hypocycloid with this configuration exists
 	}
 
 	catch (std::exception& ex) 
 	{
 		std::cout << ex.what() << std::endl;
 		std::cout << "Hypocycloid with this configuration doesn't exist! The previous hypocycloid is saved!" << std::endl;
-		delete hp_new;
+		delete hp_new;   //if new hypocycloid with this configuration doesn't exist we delete it, save old hypocycloid and exit from function
 		return 0;
 	}
 
 	
-	delete hp;
+	delete hp;     //if new hypocycloid with this configuration exists we delete the old one and set new configuration
 	hp = hp_new;
 	
 	return 0;
@@ -336,8 +336,8 @@ int D_Show_Full_Info(Hypocycloid*& hp)
 int dialog(const char* msgs[], int size)
 {
 	const char* errmsg = "";
-	int rc;
-	int i, n;
+	int number_of_altenative;
+	
 
 	do {
 		std::cout << errmsg << std::endl;
@@ -345,7 +345,7 @@ int dialog(const char* msgs[], int size)
 
 		//print the list of alternatives
 		std::cout << "Choose the number from alternatives or press 0 or Ctrl+Z to quit" << std::endl << std::endl;
-		for (i = 0; i < size; ++i) 
+		for (int i = 0; i < size; ++i) 
 		{
 			std::cout << msgs[i] << std::endl;
 		}
@@ -353,19 +353,19 @@ int dialog(const char* msgs[], int size)
 		std::cout << std::endl;
 		std::cout << "Make your choice:  --> " << std::endl;
 
-		n = get_T(rc); //input the number of alternative
+		int n = get_T(number_of_altenative); //input the number of alternative
 		if (n == -1) {
-			rc = 0;
+			number_of_altenative = 0;
 		}
-	} while (rc < 0 || rc >= size);
+	} while (number_of_altenative < 0 || number_of_altenative >= size);
 
-	return rc;
+	return number_of_altenative;
 }
 
 
 void start_menu(Hypocycloid*& hp)
 {
-	int (*fptr[])(Hypocycloid * &hp) = { nullptr,	D_Hypocycloid_New,
+	int (*dialog_functions[])(Hypocycloid * &hp) = { nullptr,	D_Hypocycloid_New,
 												D_Show_Full_Info,
 
 												D_Set_Radius_Big,    //set big radius
@@ -407,9 +407,11 @@ void start_menu(Hypocycloid*& hp)
 	//the number of alternatives
 	const int menu_size = sizeof(msgs) / sizeof(msgs[0]);
 
-	int rc;
-	while ((rc = dialog(msgs, menu_size))) {
-		if (fptr[rc](hp) == -1) {
+	int number_of_alternative;
+	while ((number_of_alternative = dialog(msgs, menu_size)))
+	{
+		if (dialog_functions[number_of_alternative](hp) == -1)
+		{
 			break;
 		}
 	}

@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <cmath>
-//#include <stdexcept>
 
 #include "Hypocycloid.h"
 
