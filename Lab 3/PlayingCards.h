@@ -24,6 +24,11 @@ struct Card
 	Ranks rank;
 };
 
+struct VectorOfCards
+{
+	Card* vector;
+	size_t size;
+};
 
 Card generate_random_card();
 
@@ -49,6 +54,8 @@ public:
 	PlayingCards& addNewCard(Card card);
 
 	PlayingCards& sort();
+
+	VectorOfCards subGroupOfSameSuit(Suits suit);
 	
 	friend std::wostream& operator<< (std::wostream& wos, const PlayingCards& playing_cards);
 

@@ -258,6 +258,32 @@ PlayingCards& PlayingCards::sort()
 	return *this;
 }
 
+
+VectorOfCards PlayingCards::subGroupOfSameSuit(Suits suit)
+{
+	VectorOfCards result = { nullptr, 0 };
+	for (int i = 0; i < count_of_written; ++i)
+	{
+		if (cards[i].suit == suit)
+		{
+			Card* vector_new = new Card[result.size + 1];
+
+			for (int j = 0; j < result.size; ++j) 
+			{
+				vector_new[j] = result.vector[j];
+			}
+
+			vector_new[result.size] = cards[i];
+
+			delete[] result.vector;
+			result.vector = vector_new;
+			++result.size;
+		}
+	}
+	return result;
+}
+
+
 PlayingCards::~PlayingCards()
 {
 

@@ -5,21 +5,42 @@
 #include "../Library/PlayingCards.h"
 #include <tchar.h>
 
+
+//-----includes for debugging memory leaks in VS-----/
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+//---------------------------------------------------/
+
 #include <stdio.h>
 #include <fcntl.h>
 #include <io.h>
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);   //flag to detect memory leaks in VS
     _setmode(_fileno(stdout), _O_U16TEXT);
 
 
-    PlayingCards pc(52);
+    PlayingCards pc(20);
+    VectorOfCards vec = pc.subGroupOfSameSuit(Suits::Diamonds);
+
+   
+    for (int i = 0; i < vec.size; ++i)
+    {
+        std::wcout << vec.vector[i];
+    }
+    std::wcout << std::endl;
+
+    delete[] vec.vector;
+   
+
     std::wcout << pc << std::endl;
 
     pc.sort();
     std::wcout << "The sorted one:" << std::endl;
     std::wcout << pc;
+
     //pc.print();
 }
 
