@@ -4,6 +4,7 @@
 #include <utility>
 #include "PlayingCards.h"
 
+
 Card generate_random_card()
 {
 	std::random_device rd;
@@ -20,6 +21,7 @@ bool operator== (const Card& card_1, const Card& card_2)
 {
 	return (card_1.rank == card_2.rank) && (card_1.suit == card_2.suit);
 }
+
 
 std::wostream& operator<< (std::wostream& wos, const Card& card)
 {
@@ -55,19 +57,19 @@ std::wostream& operator<< (std::wostream& wos, const Card& card)
 	switch (card.suit)
 	{
 	case Suits::Diamonds:
-		wos << L"\u2666";
+		wos << L'\u2666';
 		break;
 
 	case Suits::Hearts:
-		wos << L"\u2665";
+		wos << L'\u2665';
 		break;
 
 	case Suits::Clubs:
-		wos << L"\u2663";
+		wos << L'\u2663';
 		break;
 
 	case Suits::Spades:
-		wos << L"\u2660";
+		wos << L'\u2660';
 		break;
 
 	default:
@@ -79,13 +81,13 @@ std::wostream& operator<< (std::wostream& wos, const Card& card)
 }
 
 
-
-PlayingCards::PlayingCards()
+PlayingCards::PlayingCards() : current_count{ 0 }, cards {} 
 {
 	size_t suits_count = static_cast<size_t>(Suits::Count);
 	size_t ranks_count = static_cast<size_t>(Ranks::Count);
 
 	bool flag_exit = false;
+	
 
 	for (size_t i = 0; i < suits_count; ++i)
 	{
@@ -96,11 +98,11 @@ PlayingCards::PlayingCards()
 
 		for (size_t j = 0; j < ranks_count; ++j)
 		{
-			if (count_of_written < SIZE)
+			if (current_count < MAX_SIZE)
 			{
-				cards[count_of_written].rank = static_cast<Ranks>(j);
-				cards[count_of_written].suit = static_cast<Suits>(i);
-				++count_of_written;
+				cards[current_count].rank = static_cast<Ranks>(j);
+				cards[current_count].suit = static_cast<Suits>(i);
+				++current_count;
 			}
 			else
 			{
@@ -112,85 +114,66 @@ PlayingCards::PlayingCards()
 }
 
 
-PlayingCards::PlayingCards(size_t count)
+PlayingCards::PlayingCards(size_t count): current_count{ 0 }
 {
-	if (count > SIZE)
+	if (count < 0 || count > MAX_SIZE)
 	{
-		throw std::exception("count of random cards can't be larger than max size");
+		throw std::exception("count of random cards can't be larger than max size or negative");
 	}
+
 
 	for (size_t i = 0; i < count; ++i)
 	{
-		Card new_card;
-		int find;
-
-		do {
-			new_card = generate_random_card();
-			find = this->findCard(new_card, count_of_written);
-		} while (find != -1);
-
-		cards[count_of_written] = new_card;
-		++count_of_written;
+		PlayingCards::addNewRandomCard();
 	}
 }
 
 
-PlayingCards::PlayingCards(Suits suit_init, Ranks rank_init)
+PlayingCards::PlayingCards(Card card_init): current_count{ 0 }
 {
-	cards[0] = { suit_init, rank_init };
-	++count_of_written;
-
-	for (size_t i = 1; i < SIZE; ++i)
-	{
-		Card new_card;
-		int find;
-
-		do {
-			new_card = generate_random_card();
-			find = this->findCard(new_card, count_of_written);
-		} while (find != -1);
-
-		cards[count_of_written] = new_card;
-		++count_of_written;
-	}
+	cards[0] = card_init;
+	++current_count;
 }
 
 
 std::wostream& operator<<(std::wostream& wos, const PlayingCards& playing_cards)
 {
-	if (playing_cards.count_of_written == 0)
+	if (playing_cards.current_count == 0)
 	{
 		wos << "The deck is empty" << std::endl;
 	}
 
-	for (size_t i = 0; i < playing_cards.count_of_written; ++i)
+	for (size_t i = 0; i < playing_cards.current_count; ++i)
 	{
 		wos << playing_cards.cards[i];
 	}
 	return wos;
 }
 
+
 Ranks PlayingCards::getRank(size_t i) const
 {
-	if (i < 0 || i >= SIZE)
+	if (i < 0 || i >= current_count)
 	{
 		throw std::exception("invalid index");
 	}
 	return cards[i].rank;
 }
 
+
 Suits PlayingCards::getSuit(size_t i) const
 {
-	if (i < 0 || i >= SIZE)
+	if (i < 0 || i >= current_count)
 	{
 		throw std::exception("invalid index");
 	}
 	return cards[i].suit;
 }
 
-int PlayingCards::findCard(const Card& card, size_t count) const
+
+int PlayingCards::findCard(const Card& card) const
 {
-	for (size_t i = 0; i < count; ++i)
+	for (size_t i = 0; i < current_count; ++i)
 	{
 		if (cards[i] == card)
 		{
@@ -203,18 +186,41 @@ int PlayingCards::findCard(const Card& card, size_t count) const
 
 PlayingCards& PlayingCards::addNewCard(Card card)
 {
-	if (count_of_written == SIZE)
+	if (current_count == MAX_SIZE)
 	{
 		throw std::exception("deck is full");
 	}
 
-	if (PlayingCards::findCard(card, count_of_written) != -1)
+	if (PlayingCards::findCard(card) != -1)
 	{
 		throw std::exception("card already exists");
 	}
 
-	cards[count_of_written] = card;
-	++count_of_written;
+	cards[current_count] = card;
+	++current_count;
+
+	return *this;
+}
+
+
+PlayingCards& PlayingCards::addNewRandomCard()
+{
+	if (current_count == MAX_SIZE)
+	{
+		throw std::exception("deck is full");
+	}
+
+	Card new_card;
+	int find;
+
+	do {
+		new_card = generate_random_card();
+		find = PlayingCards::findCard(new_card);
+	} while (find != -1);
+
+
+	cards[current_count] = new_card;
+	++current_count;
 
 	return *this;
 }
@@ -222,7 +228,7 @@ PlayingCards& PlayingCards::addNewCard(Card card)
 
 PlayingCards& PlayingCards::sort()
 {
-	std::sort(cards, cards + count_of_written,
+	std::sort(cards, cards + current_count,
 		[](const Card& card_1, const Card& card_2) { return card_1.suit < card_2.suit; });
 
 
@@ -232,7 +238,7 @@ PlayingCards& PlayingCards::sort()
 	size_t count_of_suits = static_cast<size_t>(Suits::Count);
 	for (size_t i = 0; i < count_of_suits; ++i)
 	{
-		for (size_t j = index_end_of_one_suit; j < count_of_written; ++j)
+		for (size_t j = index_end_of_one_suit; j < current_count; ++j)
 		{
 			if (cards[j].suit != cards[j - 1].suit)
 			{
@@ -240,9 +246,9 @@ PlayingCards& PlayingCards::sort()
 				break;
 			}
 
-			if (j == count_of_written - 1)
+			if (j == current_count - 1)
 			{
-				index_end_of_one_suit = count_of_written;
+				index_end_of_one_suit = current_count;
 				break;
 			}
 		}
@@ -262,13 +268,13 @@ PlayingCards& PlayingCards::sort()
 VectorOfCards PlayingCards::subGroupOfSameSuit(Suits suit)
 {
 	VectorOfCards result = { nullptr, 0 };
-	for (int i = 0; i < count_of_written; ++i)
+	for (size_t i = 0; i < current_count; ++i)
 	{
 		if (cards[i].suit == suit)
 		{
 			Card* vector_new = new Card[result.size + 1];
 
-			for (int j = 0; j < result.size; ++j) 
+			for (size_t j = 0; j < result.size; ++j) 
 			{
 				vector_new[j] = result.vector[j];
 			}

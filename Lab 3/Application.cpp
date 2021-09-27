@@ -12,9 +12,11 @@
 #include <crtdbg.h>
 //---------------------------------------------------/
 
+
 #include <stdio.h>
 #include <fcntl.h>
 #include <io.h>
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -26,7 +28,7 @@ int _tmain(int argc, _TCHAR* argv[])
     VectorOfCards vec = pc.subGroupOfSameSuit(Suits::Diamonds);
 
    
-    for (int i = 0; i < vec.size; ++i)
+    for (size_t i = 0; i < vec.size; ++i)
     {
         std::wcout << vec.vector[i];
     }
@@ -41,6 +43,8 @@ int _tmain(int argc, _TCHAR* argv[])
     std::wcout << "The sorted one:" << std::endl;
     std::wcout << pc;
 
+    std::wcout << pc.getMaxSize() << std::endl;
+    
     //pc.print();
 }
 

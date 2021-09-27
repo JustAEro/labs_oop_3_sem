@@ -37,23 +37,27 @@ bool operator== (const Card& card_1, const Card& card_2);
 std::wostream& operator<< (std::wostream& wos, const Card& card);
 
 
-
 class PlayingCards
 {
 public:
 	PlayingCards();
 	PlayingCards(size_t count);
-	PlayingCards(Suits suit_init, Ranks rank_init);
+	PlayingCards(Card card_init);
 
 	~PlayingCards();
 
 	//getters
+	const size_t getMaxSize() const noexcept { return MAX_SIZE; }
+	size_t getCurrentCount() const noexcept { return current_count; }
 	Ranks getRank(size_t i) const;
 	Suits getSuit(size_t i) const;
 
 	PlayingCards& addNewCard(Card card);
+	PlayingCards& addNewRandomCard();
 
 	PlayingCards& sort();
+
+	int findCard(const Card& card) const;
 
 	VectorOfCards subGroupOfSameSuit(Suits suit);
 	
@@ -61,10 +65,8 @@ public:
 
 
 private:
-	static const size_t SIZE = 52;
-	size_t count_of_written = 0;
-	Card cards[SIZE];
-
-	int findCard(const Card& card,  size_t length) const;
+	static const size_t MAX_SIZE = 52;
+	size_t current_count;
+	Card cards[MAX_SIZE];
 };
 
