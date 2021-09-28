@@ -306,7 +306,7 @@ PlayingCards& PlayingCards::sort()
 }
 
 
-VectorOfCards PlayingCards::subGroupOfSameSuit(Suits suit)
+VectorOfCards PlayingCards::subGroupOfSameSuit(Suits suit) const noexcept
 {
 	VectorOfCards result = { nullptr, 0 };
 	for (size_t i = 0; i < current_count; ++i)

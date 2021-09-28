@@ -66,7 +66,7 @@ public:
 
 	int findCard(const Card& card) const;
 
-	VectorOfCards subGroupOfSameSuit(Suits suit);
+	VectorOfCards subGroupOfSameSuit(Suits suit) const noexcept;
 	
 	friend std::wostream& operator<< (std::wostream& wos, const PlayingCards& playing_cards);
 
