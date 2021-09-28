@@ -34,14 +34,21 @@ Card generate_random_card();
 
 
 bool operator== (const Card& card_1, const Card& card_2);
+
+std::wostream& operator<< (std::wostream& wos, const Suits& suit);
+std::wostream& operator<< (std::wostream& wos, const Ranks& rank);
+
 std::wostream& operator<< (std::wostream& wos, const Card& card);
+
+
+std::wostream& operator<< (std::wostream& wos, const VectorOfCards& vec_of_cards);
 
 
 class PlayingCards
 {
 public:
 	PlayingCards();
-	PlayingCards(size_t count);
+	PlayingCards(int count);
 	PlayingCards(Card card_init);
 
 	~PlayingCards();
@@ -49,8 +56,8 @@ public:
 	//getters
 	const size_t getMaxSize() const noexcept { return MAX_SIZE; }
 	size_t getCurrentCount() const noexcept { return current_count; }
-	Ranks getRank(size_t i) const;
-	Suits getSuit(size_t i) const;
+	Ranks getRank(int i) const;
+	Suits getSuit(int i) const;
 
 	PlayingCards& addNewCard(Card card);
 	PlayingCards& addNewRandomCard();

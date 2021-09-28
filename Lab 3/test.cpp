@@ -1,6 +1,15 @@
 #include "pch.h"
 #include "../Library/PlayingCards.h"
 
+#include <tchar.h>
+
+
+//-----includes for debugging memory leaks in VS-----/
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+//---------------------------------------------------/
+
 
 TEST(DefaultConstructor, TestingDefaultConstructor)
 {
@@ -297,4 +306,13 @@ TEST(SortOfDeck, SortingOfDeck)
 		index_start_of_one_suit = index_end_of_one_suit;
 		++index_end_of_one_suit;
 	}
+}
+
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);   //flag to detect memory leaks in VS
+
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
 }

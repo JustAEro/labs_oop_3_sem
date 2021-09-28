@@ -23,15 +23,15 @@ bool operator== (const Card& card_1, const Card& card_2)
 }
 
 
-std::wostream& operator<< (std::wostream& wos, const Card& card)
+std::wostream& operator<< (std::wostream& wos, const Ranks& rank)
 {
-	if (card.rank <= Ranks::Ten)
+	if (rank <= Ranks::Ten)
 	{
-		wos << (static_cast<int>(card.rank) + 2) << L" ";
+		wos << (static_cast<int>(rank) + 2) << L" ";
 	}
 	else
 	{
-		switch (card.rank)
+		switch (rank)
 		{
 		case Ranks::Jack:
 			wos << L"J ";
@@ -54,7 +54,13 @@ std::wostream& operator<< (std::wostream& wos, const Card& card)
 		}
 	}
 
-	switch (card.suit)
+	return wos;
+}
+
+
+std::wostream& operator<< (std::wostream& wos, const Suits& suit)
+{
+	switch (suit)
 	{
 	case Suits::Diamonds:
 		wos << L'\u2666';
@@ -76,7 +82,37 @@ std::wostream& operator<< (std::wostream& wos, const Card& card)
 		break;
 	}
 
-	wos << std::endl;
+	return wos;
+}
+
+
+std::wostream& operator<< (std::wostream& wos, const Card& card)
+{
+	wos << card.rank << card.suit << std::endl;
+
+	return wos;
+}
+
+
+std::wostream& operator<< (std::wostream& wos, const VectorOfCards& vec_of_cards)
+{
+	if (vec_of_cards.size == 0)
+	{
+		wos << L"No cards of this suit";
+	}
+
+	else
+	{
+		wos << L"The cards of this suit:" << std::endl;
+	}
+	
+
+	size_t n = vec_of_cards.size;
+	for (size_t i = 0; i < n; ++i)
+	{
+		wos << vec_of_cards.vector[i];
+	}
+
 	return wos;
 }
 
@@ -114,13 +150,14 @@ PlayingCards::PlayingCards() : current_count{ 0 }, cards {}
 }
 
 
-PlayingCards::PlayingCards(size_t count): current_count{ 0 }
+PlayingCards::PlayingCards(int count): current_count{ 0 }
 {
 	if (count < 0 || count > MAX_SIZE)
 	{
 		throw std::exception("count of random cards can't be larger than max size or negative");
 	}
 
+	count = static_cast<size_t>(count);
 
 	for (size_t i = 0; i < count; ++i)
 	{
@@ -151,22 +188,26 @@ std::wostream& operator<<(std::wostream& wos, const PlayingCards& playing_cards)
 }
 
 
-Ranks PlayingCards::getRank(size_t i) const
+Ranks PlayingCards::getRank(int i) const
 {
 	if (i < 0 || i >= current_count)
 	{
 		throw std::exception("invalid index");
 	}
+
+	i = static_cast<size_t>(i);
 	return cards[i].rank;
 }
 
 
-Suits PlayingCards::getSuit(size_t i) const
+Suits PlayingCards::getSuit(int i) const
 {
 	if (i < 0 || i >= current_count)
 	{
 		throw std::exception("invalid index");
 	}
+
+	i = static_cast<size_t>(i);
 	return cards[i].suit;
 }
 
