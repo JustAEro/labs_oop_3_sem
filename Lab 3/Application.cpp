@@ -2,12 +2,13 @@
 //
 
 #include <iostream>
-#include <tchar.h>
+#include "../Library/PlayingCards.h"
+#include "Menu.h"
 
 //+= , ++, [], exceptions->errors, vector->new object, universal unicode
 
 
-#ifdef _MSC_VER && !__INTEL_COMPILER
+#if defined (_MSC_VER) && !defined (__INTEL_COMPILER)
 
 //-----includes for debugging memory leaks in VS-----/
 #define _CRTDBG_MAP_ALLOC
@@ -17,19 +18,16 @@
 
 #endif
 
-#include "../Library/PlayingCards.h"
-#include "Menu.h"
 
-
-int _tmain(int argc, _TCHAR* argv[])
+int main(int argc, wchar_t* argv[])
 {
 
-    #ifdef _MSC_VER && !__INTEL_COMPILER
+    #if defined (_MSC_VER) && !defined (__INTEL_COMPILER)
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);   //flag to detect memory leaks in VS
     #endif // _MSC_VER
 
 
-    setlocale(LC_ALL, ".UTF8");
+    setlocale(LC_ALL, "en_US.utf8");
     //_setmode(_fileno(stdout), _O_U16TEXT);
 
 

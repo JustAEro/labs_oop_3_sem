@@ -1,3 +1,9 @@
+#include <iostream>
+#include <stdexcept>
+#include <limits>
+
+#include "..\Library\PlayingCards.h"
+
 #include "Menu.h"
 
 

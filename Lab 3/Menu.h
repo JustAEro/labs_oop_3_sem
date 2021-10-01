@@ -1,25 +1,21 @@
 #pragma once
 
-#include <iostream>
-#include "..\Library\PlayingCards.h"
-
-
 //functions to organize the dialog, if EOF they return -1 and if they work correctly they return 0
 
-int	D_PlayingCards_New(PlayingCards*& pc),   //construct new deck
+int	D_PlayingCards_New(PlayingCards*& pc);   //construct new deck
 
-D_Show_Deck(PlayingCards*& pc),      //print the current deck
+int D_Show_Deck(PlayingCards*& pc);      //print the current deck
 
-D_Add_New_Random_Card(PlayingCards*& pc), //add new random card to deck
+int D_Add_New_Random_Card(PlayingCards*& pc); //add new random card to deck
 
-D_Get_Suit(PlayingCards*& pc),
-D_Get_Rank(PlayingCards*& pc),
-D_Sort(PlayingCards*& pc),
+int D_Get_Suit(PlayingCards*& pc);
+int D_Get_Rank(PlayingCards*& pc);
+int D_Sort(PlayingCards*& pc);
 
-D_Subgroup_Of_Same_Suit(PlayingCards*& pc),
+int D_Subgroup_Of_Same_Suit(PlayingCards*& pc);
 
 
-D_Delete(PlayingCards*& pc);					//delete deck
+int D_Delete(PlayingCards*& pc);					//delete deck
 
 
 int choose_suit();

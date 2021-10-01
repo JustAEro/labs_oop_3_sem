@@ -1,6 +1,9 @@
 #include <iostream>
 #include <random>
 #include <utility>
+#include <algorithm>
+#include <stdexcept>
+#include <limits>
 #include "PlayingCards.h"
 
 
@@ -153,7 +156,7 @@ PlayingCards::PlayingCards(int count): current_count{ 0 }
 {
 	if (count < 0 || count > MAX_SIZE)
 	{
-		throw std::exception("count of random cards can't be larger than max size or negative");
+		throw std::logic_error("count of random cards can't be larger than max size or negative");
 	}
 
 	count = static_cast<size_t>(count);
@@ -191,7 +194,7 @@ Ranks PlayingCards::getRank(int i) const
 {
 	if (i < 0 || i >= current_count)
 	{
-		throw std::exception("invalid index");
+		throw std::range_error("invalid index");
 	}
 
 	i = static_cast<size_t>(i);
@@ -203,7 +206,7 @@ Suits PlayingCards::getSuit(int i) const
 {
 	if (i < 0 || i >= current_count)
 	{
-		throw std::exception("invalid index");
+		throw std::range_error("invalid index");
 	}
 
 	i = static_cast<size_t>(i);
@@ -228,12 +231,12 @@ PlayingCards& PlayingCards::addNewCard(Card card)
 {
 	if (current_count == MAX_SIZE)
 	{
-		throw std::exception("deck is full");
+		throw std::logic_error("deck is full");
 	}
 
 	if (PlayingCards::findCard(card) != -1)
 	{
-		throw std::exception("card already exists");
+		throw std::logic_error("card already exists");
 	}
 
 	cards[current_count] = card;
@@ -247,7 +250,7 @@ PlayingCards& PlayingCards::addNewRandomCard()
 {
 	if (current_count == MAX_SIZE)
 	{
-		throw std::exception("deck is full");
+		throw std::logic_error("deck is full");
 	}
 
 	Card new_card;
