@@ -1,4 +1,3 @@
-#include "pch.h"
 #include <iostream>
 #include <random>
 #include <utility>
@@ -270,37 +269,14 @@ PlayingCards& PlayingCards::addNewRandomCard()
 PlayingCards& PlayingCards::sort()
 {
 	std::sort(cards, cards + current_count,
-		[](const Card& card_1, const Card& card_2) { return card_1.suit < card_2.suit; });
+		[](const Card& card_1, const Card& card_2) {		if (card_1.suit == card_2.suit)
+															{
+																return card_1.rank > card_2.rank;
+															}
 
+															return card_1.suit < card_2.suit;
+												   });
 
-	
-	size_t index_start_of_one_suit = 0, index_end_of_one_suit = 1;
-
-	size_t count_of_suits = static_cast<size_t>(Suits::Count);
-	for (size_t i = 0; i < count_of_suits; ++i)
-	{
-		for (size_t j = index_end_of_one_suit; j < current_count; ++j)
-		{
-			if (cards[j].suit != cards[j - 1].suit)
-			{
-				index_end_of_one_suit = j;
-				break;
-			}
-
-			if (j == current_count - 1)
-			{
-				index_end_of_one_suit = current_count;
-				break;
-			}
-		}
-
-		std::sort(cards + index_start_of_one_suit, cards + index_end_of_one_suit,
-			[](const Card& card_1, const Card& card_2) { return card_1.rank > card_2.rank; });
-
-
-		index_start_of_one_suit = index_end_of_one_suit;
-		++index_end_of_one_suit;
-	}
 
 	return *this;
 }

@@ -1,8 +1,10 @@
-#include "pch.h"
+#include "gtest/gtest.h"
 #include "../Library/PlayingCards.h"
 
 #include <tchar.h>
 
+
+#ifdef _MSC_VER && !__INTEL_COMPILER
 
 //-----includes for debugging memory leaks in VS-----/
 #define _CRTDBG_MAP_ALLOC
@@ -10,6 +12,7 @@
 #include <crtdbg.h>
 //---------------------------------------------------/
 
+#endif
 
 TEST(DefaultConstructor, TestingDefaultConstructor)
 {
@@ -311,7 +314,9 @@ TEST(SortOfDeck, SortingOfDeck)
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	#ifdef _MSC_VER && !__INTEL_COMPILER
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);   //flag to detect memory leaks in VS
+	#endif
 
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
