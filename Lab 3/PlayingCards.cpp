@@ -96,29 +96,6 @@ std::wostream& operator<< (std::wostream& wos, const Card& card)
 }
 
 
-std::wostream& operator<< (std::wostream& wos, const VectorOfCards& vec_of_cards)
-{
-	if (vec_of_cards.size == 0)
-	{
-		wos << L"No cards of this suit";
-	}
-
-	else
-	{
-		wos << L"The cards of this suit:" << std::endl;
-	}
-	
-
-	size_t n = vec_of_cards.size;
-	for (size_t i = 0; i < n; ++i)
-	{
-		wos << vec_of_cards.vector[i];
-	}
-
-	return wos;
-}
-
-
 PlayingCards::PlayingCards() : current_count{ 0 }, cards {} 
 {
 	size_t suits_count = static_cast<size_t>(Suits::Count);
@@ -159,9 +136,7 @@ PlayingCards::PlayingCards(int count): current_count{ 0 }
 		throw std::logic_error("count of random cards can't be larger than max size or negative");
 	}
 
-	count = static_cast<size_t>(count);
-
-	for (size_t i = 0; i < count; ++i)
+	for (int i = 0; i < count; ++i)
 	{
 		PlayingCards::addNewRandomCard();
 	}
@@ -192,24 +167,22 @@ std::wostream& operator<<(std::wostream& wos, const PlayingCards& playing_cards)
 
 Ranks PlayingCards::getRank(int i) const
 {
-	if (i < 0 || i >= current_count)
+	if (i < 0 || i >= static_cast<int>(current_count))
 	{
 		throw std::range_error("invalid index");
 	}
 
-	i = static_cast<size_t>(i);
 	return cards[i].rank;
 }
 
 
 Suits PlayingCards::getSuit(int i) const
 {
-	if (i < 0 || i >= current_count)
+	if (i < 0 || i >= static_cast<int>(current_count))
 	{
 		throw std::range_error("invalid index");
 	}
 
-	i = static_cast<size_t>(i);
 	return cards[i].suit;
 }
 
@@ -284,29 +257,62 @@ PlayingCards& PlayingCards::sort()
 	return *this;
 }
 
-
-VectorOfCards PlayingCards::subGroupOfSameSuit(Suits suit) const noexcept
+PlayingCards PlayingCards::subGroupOfSameSuit(Suits suit) const noexcept
 {
-	VectorOfCards result = { nullptr, 0 };
+	PlayingCards result(0);
 	for (size_t i = 0; i < current_count; ++i)
 	{
 		if (cards[i].suit == suit)
 		{
-			Card* vector_new = new Card[result.size + 1];
-
-			for (size_t j = 0; j < result.size; ++j) 
-			{
-				vector_new[j] = result.vector[j];
-			}
-
-			vector_new[result.size] = cards[i];
-
-			delete[] result.vector;
-			result.vector = vector_new;
-			++result.size;
+			result.cards[result.current_count] = cards[i];
+			++(result.current_count);
 		}
 	}
 	return result;
+}
+
+
+const Card& PlayingCards::operator[] (int i) const
+{
+	if (i < 0 || i >= static_cast<int>(current_count))
+	{
+		throw std::range_error("invalid index");
+	}
+
+	return cards[i];
+}
+
+
+PlayingCards& PlayingCards::operator+= (Card card)
+{
+	if (current_count == MAX_SIZE)
+	{
+		throw std::logic_error("deck is full");
+	}
+
+	if (PlayingCards::findCard(card) != -1)
+	{
+		throw std::logic_error("card already exists");
+	}
+
+	cards[current_count] = card;
+	++current_count;
+
+	return *this;
+}
+
+
+PlayingCards& PlayingCards::operator++()
+{
+	PlayingCards::addNewRandomCard();
+	return *this;
+}
+
+const PlayingCards PlayingCards::operator++(int)
+{
+	PlayingCards prev(*this);
+	PlayingCards::addNewRandomCard();
+	return prev;
 }
 
 

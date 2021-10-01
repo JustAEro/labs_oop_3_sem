@@ -152,11 +152,10 @@ int D_Subgroup_Of_Same_Suit(PlayingCards*& pc)
 		}
 
 		Suits suit = static_cast<Suits>(number_of_suit);
-		VectorOfCards vec_of_cards = pc->subGroupOfSameSuit(suit);
+		PlayingCards subGroup = pc->subGroupOfSameSuit(suit);
 		
-		std::wcout << vec_of_cards;
-
-		delete[] vec_of_cards.vector;
+		std::wcout << "The subgroup of this suit is:" << std::endl;
+		std::wcout << subGroup;
 	}
 	return 0;
 }

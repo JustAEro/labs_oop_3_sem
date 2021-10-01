@@ -249,16 +249,17 @@ TEST(GroupOfSameSuit, FindingTheGroupOfSameSuit)
 {
 	PlayingCards playing_cards;
 
-	VectorOfCards vec = playing_cards.subGroupOfSameSuit(Suits::Diamonds);
+	PlayingCards subGroup = playing_cards.subGroupOfSameSuit(Suits::Diamonds);
 
-	ASSERT_EQ(13, vec.size);
+	int count = static_cast<int>(subGroup.getCurrentCount());
+	ASSERT_EQ(13, count);
 
-	for (size_t i = 0; i < vec.size; ++i)
+	ASSERT_EQ(52, playing_cards.getCurrentCount());
+
+	for (int i = 0; i < count; ++i)
 	{
-		ASSERT_FALSE(-1 == playing_cards.findCard(vec.vector[i]));
+		ASSERT_FALSE(-1 == playing_cards.findCard(subGroup[i]));
 	}
-
-	delete[] vec.vector;
 }
 
 

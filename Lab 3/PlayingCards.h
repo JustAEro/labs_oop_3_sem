@@ -24,11 +24,6 @@ struct Card
 	Ranks rank;
 };
 
-struct VectorOfCards
-{
-	Card* vector;
-	size_t size;
-};
 
 Card generate_random_card();
 
@@ -41,9 +36,6 @@ std::wostream& operator<< (std::wostream& wos, const Ranks& rank);
 std::wostream& operator<< (std::wostream& wos, const Card& card);
 
 
-std::wostream& operator<< (std::wostream& wos, const VectorOfCards& vec_of_cards);
-
-
 class PlayingCards
 {
 public:
@@ -54,7 +46,7 @@ public:
 	~PlayingCards();
 
 	//getters
-	const size_t getMaxSize() const noexcept { return MAX_SIZE; }
+	size_t getMaxSize() const noexcept { return MAX_SIZE; }
 	size_t getCurrentCount() const noexcept { return current_count; }
 	Ranks getRank(int i) const;
 	Suits getSuit(int i) const;
@@ -66,8 +58,18 @@ public:
 
 	int findCard(const Card& card) const;
 
-	VectorOfCards subGroupOfSameSuit(Suits suit) const noexcept;
+	PlayingCards subGroupOfSameSuit(Suits suit) const noexcept;
 	
+
+	const Card& operator[] (int i) const;
+
+
+	PlayingCards& operator+= (Card card);
+
+	PlayingCards& operator++();
+	const PlayingCards operator++(int);
+
+
 	friend std::wostream& operator<< (std::wostream& wos, const PlayingCards& playing_cards);
 
 
