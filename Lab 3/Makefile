@@ -1,4 +1,4 @@
-all: Application.cpp libPlayingCards.a
+all: Application.cpp
 	g++ -Wall -Wextra -c PlayingCards.cpp
 	ar -rcs libPlayingCards.a PlayingCards.o
 	g++ -Wall -Wextra -c Application.cpp Menu.cpp
