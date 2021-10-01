@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../Library/PlayingCards.h"
+#include "PlayingCards.h"
 
 
 #if defined(_MSC_VER) && !defined(__INTEL_COMPILER)

@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <limits>
 
-#include "..\Library\PlayingCards.h"
+#include "PlayingCards.h"
 
 #include "Menu.h"
 
