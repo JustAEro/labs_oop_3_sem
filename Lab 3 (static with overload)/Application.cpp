@@ -22,7 +22,7 @@
 #endif
 
 
-int main(int argc, wchar_t* argv[])
+int main()
 {
 
     #if defined (_MSC_VER) && !defined (__INTEL_COMPILER)
@@ -31,7 +31,10 @@ int main(int argc, wchar_t* argv[])
 
 
     setlocale(LC_ALL, "en_US.utf8");
-    //_setmode(_fileno(stdout), _O_U16TEXT);
+
+    #ifdef __APPLE__
+    std::wcout.imbue(std::locale("en_US.UTF-8"));
+    #endif
 
 
     PlayingCards* pc = nullptr;
