@@ -149,7 +149,7 @@ PlayingCards::PlayingCards() : current_count{ 0 }, cards { nullptr }
 
 PlayingCards::PlayingCards(int count): current_count{ 0 }, cards { nullptr }
 {
-	if (count < 0 || count > MAX_SIZE)
+	if (count < 0 || static_cast<size_t>(count) > MAX_SIZE)
 	{
 		throw std::logic_error("count of random cards can't be larger than max size or negative");
 	}
