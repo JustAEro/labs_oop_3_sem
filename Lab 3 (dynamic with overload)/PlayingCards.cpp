@@ -257,7 +257,7 @@ PlayingCards PlayingCards::subGroupOfSameSuit(Suits suit) const noexcept
 		{
 			Card* cards_new = new Card[current_count + 1];
 			copy_deck(result.cards, cards_new, current_count);
-			delete[] cards;
+			delete[] result.cards;
 			result.cards = cards_new;
 
 			result.cards[result.current_count] = cards[i];
