@@ -98,6 +98,11 @@ std::wostream& operator<< (std::wostream& wos, const Card& card)
 
 void PlayingCards::copy_deck(const Card* src, Card* dest, size_t src_len) const
 {
+	if (src == nullptr)
+	{
+		return;
+	}
+
 	for (size_t i = 0; i < src_len; ++i)
 	{
 		dest[i] = src[i];
