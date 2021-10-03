@@ -142,7 +142,7 @@ PlayingCards::PlayingCards() : current_count{ 0 }, cards { nullptr }
 }
 
 
-PlayingCards::PlayingCards(int count): current_count{ 0 }
+PlayingCards::PlayingCards(int count): current_count{ 0 }, cards { nullptr }
 {
 	if (count < 0 || count > MAX_SIZE)
 	{
@@ -163,10 +163,13 @@ PlayingCards::PlayingCards(Card card_init): current_count{ 1 }
 }
 
 
-PlayingCards::PlayingCards(const PlayingCards& playing_cards): current_count{ playing_cards.current_count }
+PlayingCards::PlayingCards(const PlayingCards& playing_cards): current_count{ playing_cards.current_count }, cards{ nullptr }
 {
-	cards = new Card[current_count];
-
+	if (current_count != 0)
+	{
+		cards = new Card[current_count];
+	}
+	
 	for (size_t i = 0; i < current_count; ++i)
 	{
 		cards[i] = playing_cards.cards[i];
@@ -211,7 +214,7 @@ PlayingCards& PlayingCards::addNewRandomCard()
 	}
 
 	Card new_card;
-	int find;
+	int find = -1;
 
 	do {
 		new_card = generate_random_card();
