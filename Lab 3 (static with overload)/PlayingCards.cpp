@@ -227,7 +227,7 @@ PlayingCards& PlayingCards::addNewRandomCard()
 	}
 
 	Card new_card;
-	int find = -1;
+	int find = 0;
 
 	do {
 		new_card = generate_random_card();
