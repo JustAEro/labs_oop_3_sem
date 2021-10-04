@@ -260,8 +260,8 @@ PlayingCards PlayingCards::subGroupOfSameSuit(Suits suit) const noexcept
 	{
 		if (cards[i].suit == suit)
 		{
-			Card* cards_new = new Card[current_count + 1];
-			copy_deck(result.cards, cards_new, current_count);
+			Card* cards_new = new Card[result.current_count + 1];
+			copy_deck(result.cards, cards_new, result.current_count);
 			delete[] result.cards;
 			result.cards = cards_new;
 
