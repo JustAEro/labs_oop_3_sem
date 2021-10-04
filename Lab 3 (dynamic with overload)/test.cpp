@@ -40,8 +40,8 @@ TEST(DefaultConstructor, TestingDefaultConstructor)
 		{
 			if (index < current_count)
 			{
-				ASSERT_EQ(static_cast<Ranks>(j), playing_cards.getRank(index));
-				ASSERT_EQ(static_cast<Suits>(i), playing_cards.getSuit(index));
+				ASSERT_EQ(static_cast<Ranks>(j), playing_cards[index].rank);
+				ASSERT_EQ(static_cast<Suits>(i), playing_cards[index].suit);
 				
 				++index;
 			}
@@ -84,8 +84,8 @@ TEST(DefaultConstructor, DefaultConstructorArray)
 			{
 				if (index < current_count)
 				{
-					ASSERT_EQ(static_cast<Ranks>(j), playing_cards_array[k].getRank(index));
-					ASSERT_EQ(static_cast<Suits>(i), playing_cards_array[k].getSuit(index));
+					ASSERT_EQ(static_cast<Ranks>(j), playing_cards_array[k][index].rank);
+					ASSERT_EQ(static_cast<Suits>(i), playing_cards_array[k][index].suit);
 
 					++index;
 				}
@@ -111,13 +111,13 @@ TEST(InitCountConstructor, TestingInitCountConstructor)
 	
 	for (size_t i = 0; i < count; ++i)
 	{
-		Card card_1 = { playing_cards.getSuit(i), playing_cards.getRank(i) };
+		Card card_1 = playing_cards[i];
 		
 		for (size_t j = 0; j < count; ++j)
 		{
 			if (i != j)
 			{
-				Card card_2 = { playing_cards.getSuit(j), playing_cards.getRank(j) };
+				Card card_2 = playing_cards[j];
 				ASSERT_FALSE(card_1 == card_2);
 			}
 		}
@@ -140,7 +140,7 @@ TEST(InitCardConstructor, TestingInitCardConstructor)
 
 	ASSERT_EQ(1, playing_cards.getCurrentCount());
 
-	Card first_card = { playing_cards.getSuit(0), playing_cards.getRank(0) };
+	Card first_card = playing_cards[0];
 	ASSERT_EQ(card_init, first_card);
 }
 
@@ -208,16 +208,16 @@ TEST(IndexingOperatorTesting, OperatorTest)
 TEST(GetterRankThrow, TestingGetters)
 {
 	PlayingCards playing_cards(20);
-	ASSERT_ANY_THROW(playing_cards.getRank(21));
-	ASSERT_ANY_THROW(playing_cards.getRank(-1));
+	ASSERT_ANY_THROW(playing_cards[21].rank);
+	ASSERT_ANY_THROW(playing_cards[-1].rank);
 }
 
 
 TEST(GetterSuitThrow, TestingGetters)
 {
 	PlayingCards playing_cards(20);
-	ASSERT_ANY_THROW(playing_cards.getSuit(21));
-	ASSERT_ANY_THROW(playing_cards.getSuit(-1));
+	ASSERT_ANY_THROW(playing_cards[21].suit);
+	ASSERT_ANY_THROW(playing_cards[-1].suit);
 }
 
 
@@ -227,7 +227,7 @@ TEST(FindCard, FindingCards)
 
 	for (size_t i = 0; i < playing_cards.getMaxSize(); ++i)
 	{
-		Card card = { playing_cards.getSuit(i), playing_cards.getRank(i) };
+		Card card = playing_cards[i];
 
 		ASSERT_FALSE(-1 == playing_cards.findCard(card));
 		ASSERT_EQ(i, playing_cards.findCard(card));
@@ -250,11 +250,11 @@ TEST(AddNewCard, AddingCard)
 	PlayingCards playing_cards(card_init);
 
 	Card card_to_add = { Suits::Diamonds, Ranks::Five };
-	playing_cards.addNewCard(card_to_add);
+	playing_cards += card_to_add;
 
 	ASSERT_EQ(2, playing_cards.getCurrentCount());
 
-	Card card_new = { playing_cards.getSuit(1), playing_cards.getRank(1) };
+	Card card_new = playing_cards[1];
 	ASSERT_EQ(card_to_add, card_new);
 }
 
@@ -264,7 +264,7 @@ TEST(AddNewCardThrowSizeException, AddingCard)
 	PlayingCards playing_cards;
 	Card card_to_add = { Suits::Clubs, Ranks::Ace };
 	
-	ASSERT_ANY_THROW(playing_cards.addNewCard(card_to_add));
+	ASSERT_ANY_THROW(playing_cards += card_to_add);
 
 }
 
@@ -275,7 +275,7 @@ TEST(AddNewCardThrowExistException, AddingCard)
 
 	PlayingCards playing_cards(card_init);
 
-	ASSERT_ANY_THROW(playing_cards.addNewCard(card_init));
+	ASSERT_ANY_THROW(playing_cards += card_init);
 }
 
 
@@ -324,7 +324,7 @@ TEST(AddNewRandomCard, AddingCard)
 
 	ASSERT_EQ(2, playing_cards.getCurrentCount());
 
-	Card card_new = { playing_cards.getSuit(1), playing_cards.getRank(1) };
+	Card card_new = playing_cards[1];
 
 	ASSERT_FALSE(card_new == card_init);
 }
@@ -435,7 +435,7 @@ TEST(SortOfDeck, SortingOfDeck)
 	{
 		for (size_t j = index_end_of_one_suit; j < current_count; ++j)
 		{
-			if (playing_cards.getSuit(j) != playing_cards.getSuit(j - 1))
+			if (playing_cards[j].suit != playing_cards[j - 1].suit)
 			{
 				index_end_of_one_suit = j;
 				break;
@@ -448,17 +448,17 @@ TEST(SortOfDeck, SortingOfDeck)
 			}
 		}
 
-		Suits current_suit = playing_cards.getSuit(index_start_of_one_suit);
+		Suits current_suit = playing_cards[index_start_of_one_suit].suit;
 		for (size_t k = index_start_of_one_suit; k < index_end_of_one_suit; ++k)
 		{
-			ASSERT_EQ(current_suit, playing_cards.getSuit(k));
+			ASSERT_EQ(current_suit, playing_cards[k].suit);
 		}
 
-		Ranks rank_prev = playing_cards.getRank(index_start_of_one_suit);
+		Ranks rank_prev = playing_cards[index_start_of_one_suit].rank;
 		for (size_t k = index_start_of_one_suit + 1; k < index_end_of_one_suit; ++k)
 		{
-			ASSERT_TRUE(playing_cards.getRank(k) < rank_prev);
-			rank_prev = playing_cards.getRank(k);
+			ASSERT_TRUE(playing_cards[k].rank < rank_prev);
+			rank_prev = playing_cards[k].rank;
 		}
 
 		index_start_of_one_suit = index_end_of_one_suit;
