@@ -407,6 +407,14 @@ TEST(GroupOfSameSuit, FindingTheGroupOfSameSuit)
 	{
 		ASSERT_FALSE(-1 == playing_cards.findCard(subGroup[i]));
 	}
+
+
+	Card card_init = { Suits::Clubs, Ranks::Ace };
+	PlayingCards pc(card_init);
+
+	PlayingCards subGroup_2 = pc.subGroupOfSameSuit(Suits::Clubs);
+	ASSERT_EQ(subGroup_2.getCurrentCount(), 1);
+
 }
 
 
