@@ -40,9 +40,9 @@ TEST(DefaultConstructor, TestingDefaultConstructor)
 		{
 			if (index < current_count)
 			{
-				ASSERT_EQ(static_cast<Ranks>(j), playing_cards.getRank(index));
-				ASSERT_EQ(static_cast<Suits>(i), playing_cards.getSuit(index));
-				
+				ASSERT_EQ(static_cast<Ranks>(j), playing_cards[index].rank);
+				ASSERT_EQ(static_cast<Suits>(i), playing_cards[index].suit);
+
 				++index;
 			}
 			else
@@ -84,8 +84,8 @@ TEST(DefaultConstructor, DefaultConstructorArray)
 			{
 				if (index < current_count)
 				{
-					ASSERT_EQ(static_cast<Ranks>(j), playing_cards_array[k].getRank(index));
-					ASSERT_EQ(static_cast<Suits>(i), playing_cards_array[k].getSuit(index));
+					ASSERT_EQ(static_cast<Ranks>(j), playing_cards_array[k][index].rank);
+					ASSERT_EQ(static_cast<Suits>(i), playing_cards_array[k][index].suit);
 
 					++index;
 				}
@@ -108,16 +108,16 @@ TEST(InitCountConstructor, TestingInitCountConstructor)
 	PlayingCards playing_cards(20);
 
 	ASSERT_EQ(count, playing_cards.getCurrentCount());
-	
+
 	for (size_t i = 0; i < count; ++i)
 	{
-		Card card_1 = { playing_cards.getSuit(i), playing_cards.getRank(i) };
-		
+		Card card_1 = playing_cards[i];
+
 		for (size_t j = 0; j < count; ++j)
 		{
 			if (i != j)
 			{
-				Card card_2 = { playing_cards.getSuit(j), playing_cards.getRank(j) };
+				Card card_2 = playing_cards[j];
 				ASSERT_FALSE(card_1 == card_2);
 			}
 		}
@@ -127,8 +127,8 @@ TEST(InitCountConstructor, TestingInitCountConstructor)
 
 TEST(InitCountConstructorThrow, TestingInitCountConstructor)
 {
-	ASSERT_ANY_THROW(PlayingCards(53));
-	ASSERT_ANY_THROW(PlayingCards(-1));
+	ASSERT_THROW(PlayingCards(53), std::logic_error);
+	ASSERT_THROW(PlayingCards(-1), std::logic_error);
 }
 
 
@@ -140,8 +140,60 @@ TEST(InitCardConstructor, TestingInitCardConstructor)
 
 	ASSERT_EQ(1, playing_cards.getCurrentCount());
 
-	Card first_card = { playing_cards.getSuit(0), playing_cards.getRank(0) };
+	Card first_card = playing_cards[0];
 	ASSERT_EQ(card_init, first_card);
+}
+
+
+TEST(CopyConstuctor, TestingCopyConstructor)
+{
+	PlayingCards playing_cards;
+
+	PlayingCards pc_copy(playing_cards);
+
+	ASSERT_EQ(pc_copy.getCurrentCount(), playing_cards.getCurrentCount());
+
+	size_t n = playing_cards.getCurrentCount();
+
+	for (size_t i = 0; i < n; ++i)
+	{
+		ASSERT_EQ(playing_cards[i], pc_copy[i]);
+	}
+
+
+	PlayingCards pc_2(0);
+	PlayingCards pc_2_copy(pc_2);
+	ASSERT_EQ(pc_2.getCurrentCount(), 0);
+	ASSERT_EQ(pc_2_copy.getCurrentCount(), 0);
+}
+
+
+TEST(AssignmentOperator, OperatorTest)
+{
+	PlayingCards playing_cards;
+
+	PlayingCards pc_2 = playing_cards;
+	ASSERT_EQ(pc_2.getCurrentCount(), playing_cards.getCurrentCount());
+
+	size_t n = playing_cards.getCurrentCount();
+
+	for (size_t i = 0; i < n; ++i)
+	{
+		ASSERT_EQ(playing_cards[i], pc_2[i]);
+	}
+
+
+	Card card_init = { Suits::Clubs, Ranks::Ace };
+	PlayingCards pc_3(card_init);
+
+	pc_2 = pc_3;
+	ASSERT_EQ(pc_2.getCurrentCount(), pc_3.getCurrentCount());
+	n = pc_2.getCurrentCount();
+
+	for (size_t i = 0; i < n; ++i)
+	{
+		ASSERT_EQ(pc_3[i], pc_2[i]);
+	}
 }
 
 
@@ -156,16 +208,16 @@ TEST(IndexingOperatorTesting, OperatorTest)
 TEST(GetterRankThrow, TestingGetters)
 {
 	PlayingCards playing_cards(20);
-	ASSERT_ANY_THROW(playing_cards.getRank(21));
-	ASSERT_ANY_THROW(playing_cards.getRank(-1));
+	ASSERT_THROW(playing_cards[21].rank, std::range_error);
+	ASSERT_THROW(playing_cards[-1].rank, std::range_error);
 }
 
 
 TEST(GetterSuitThrow, TestingGetters)
 {
 	PlayingCards playing_cards(20);
-	ASSERT_ANY_THROW(playing_cards.getSuit(21));
-	ASSERT_ANY_THROW(playing_cards.getSuit(-1));
+	ASSERT_THROW(playing_cards[21].suit, std::range_error);
+	ASSERT_THROW(playing_cards[-1].suit, std::range_error);
 }
 
 
@@ -175,13 +227,13 @@ TEST(FindCard, FindingCards)
 
 	for (size_t i = 0; i < playing_cards.getMaxSize(); ++i)
 	{
-		Card card = { playing_cards.getSuit(i), playing_cards.getRank(i) };
+		Card card = playing_cards[i];
 
 		ASSERT_FALSE(-1 == playing_cards.findCard(card));
 		ASSERT_EQ(i, playing_cards.findCard(card));
 	}
 
-	
+
 	Card card_init = { Suits::Clubs, Ranks::Ace };
 
 	PlayingCards playing_cards_2(card_init);
@@ -198,11 +250,11 @@ TEST(AddNewCard, AddingCard)
 	PlayingCards playing_cards(card_init);
 
 	Card card_to_add = { Suits::Diamonds, Ranks::Five };
-	playing_cards.addNewCard(card_to_add);
+	playing_cards += card_to_add;
 
 	ASSERT_EQ(2, playing_cards.getCurrentCount());
 
-	Card card_new = { playing_cards.getSuit(1), playing_cards.getRank(1) };
+	Card card_new = playing_cards[1];
 	ASSERT_EQ(card_to_add, card_new);
 }
 
@@ -211,8 +263,8 @@ TEST(AddNewCardThrowSizeException, AddingCard)
 {
 	PlayingCards playing_cards;
 	Card card_to_add = { Suits::Clubs, Ranks::Ace };
-	
-	ASSERT_ANY_THROW(playing_cards.addNewCard(card_to_add));
+
+	ASSERT_THROW(playing_cards += card_to_add, std::logic_error);
 
 }
 
@@ -223,7 +275,7 @@ TEST(AddNewCardThrowExistException, AddingCard)
 
 	PlayingCards playing_cards(card_init);
 
-	ASSERT_ANY_THROW(playing_cards.addNewCard(card_init));
+	ASSERT_THROW(playing_cards += card_init, std::logic_error);
 }
 
 
@@ -272,7 +324,7 @@ TEST(AddNewRandomCard, AddingCard)
 
 	ASSERT_EQ(2, playing_cards.getCurrentCount());
 
-	Card card_new = { playing_cards.getSuit(1), playing_cards.getRank(1) };
+	Card card_new = playing_cards[1];
 
 	ASSERT_FALSE(card_new == card_init);
 }
@@ -282,7 +334,7 @@ TEST(AddNewRandomCardThrowSizeException, AddingCard)
 {
 	PlayingCards playing_cards;
 
-	ASSERT_ANY_THROW(playing_cards.addNewRandomCard());
+	ASSERT_THROW(playing_cards.addNewRandomCard(), std::logic_error);
 
 }
 
@@ -355,6 +407,14 @@ TEST(GroupOfSameSuit, FindingTheGroupOfSameSuit)
 	{
 		ASSERT_FALSE(-1 == playing_cards.findCard(subGroup[i]));
 	}
+
+
+	Card card_init = { Suits::Clubs, Ranks::Ace };
+	PlayingCards pc(card_init);
+
+	PlayingCards subGroup_2 = pc.subGroupOfSameSuit(Suits::Clubs);
+	ASSERT_EQ(subGroup_2.getCurrentCount(), 1);
+
 }
 
 
@@ -375,7 +435,7 @@ TEST(SortOfDeck, SortingOfDeck)
 	{
 		for (size_t j = index_end_of_one_suit; j < current_count; ++j)
 		{
-			if (playing_cards.getSuit(j) != playing_cards.getSuit(j - 1))
+			if (playing_cards[j].suit != playing_cards[j - 1].suit)
 			{
 				index_end_of_one_suit = j;
 				break;
@@ -388,17 +448,17 @@ TEST(SortOfDeck, SortingOfDeck)
 			}
 		}
 
-		Suits current_suit = playing_cards.getSuit(index_start_of_one_suit);
+		Suits current_suit = playing_cards[index_start_of_one_suit].suit;
 		for (size_t k = index_start_of_one_suit; k < index_end_of_one_suit; ++k)
 		{
-			ASSERT_EQ(current_suit, playing_cards.getSuit(k));
+			ASSERT_EQ(current_suit, playing_cards[k].suit);
 		}
 
-		Ranks rank_prev = playing_cards.getRank(index_start_of_one_suit);
+		Ranks rank_prev = playing_cards[index_start_of_one_suit].rank;
 		for (size_t k = index_start_of_one_suit + 1; k < index_end_of_one_suit; ++k)
 		{
-			ASSERT_TRUE(playing_cards.getRank(k) < rank_prev);
-			rank_prev = playing_cards.getRank(k);
+			ASSERT_TRUE(playing_cards[k].rank < rank_prev);
+			rank_prev = playing_cards[k].rank;
 		}
 
 		index_start_of_one_suit = index_end_of_one_suit;
@@ -407,11 +467,11 @@ TEST(SortOfDeck, SortingOfDeck)
 }
 
 
-int main(int argc, wchar_t *argv[])
+int main(int argc, wchar_t* argv[])
 {
-    #if defined (_MSC_VER) && !defined (__INTEL_COMPILER)
+#if defined (_MSC_VER) && !defined (__INTEL_COMPILER)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);   //flag to detect memory leaks in VS
-	#endif
+#endif
 
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
