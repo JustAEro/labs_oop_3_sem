@@ -48,10 +48,7 @@ public:
 	//getters
 	size_t getMaxSize() const noexcept { return MAX_SIZE; }
 	size_t getCurrentCount() const noexcept { return current_count; }
-	Ranks getRank(int i) const;
-	Suits getSuit(int i) const;
 
-	PlayingCards& addNewCard(Card card);
 	PlayingCards& addNewRandomCard();
 
 	PlayingCards& sort();

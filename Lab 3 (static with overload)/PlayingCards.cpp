@@ -165,28 +165,6 @@ std::wostream& operator<<(std::wostream& wos, const PlayingCards& playing_cards)
 }
 
 
-Ranks PlayingCards::getRank(int i) const
-{
-	if (i < 0 || i >= static_cast<int>(current_count))
-	{
-		throw std::range_error("invalid index");
-	}
-
-	return cards[i].rank;
-}
-
-
-Suits PlayingCards::getSuit(int i) const
-{
-	if (i < 0 || i >= static_cast<int>(current_count))
-	{
-		throw std::range_error("invalid index");
-	}
-
-	return cards[i].suit;
-}
-
-
 int PlayingCards::findCard(const Card& card) const
 {
 	for (size_t i = 0; i < current_count; ++i)
@@ -197,25 +175,6 @@ int PlayingCards::findCard(const Card& card) const
 		}
 	}
 	return -1;
-}
-
-
-PlayingCards& PlayingCards::addNewCard(Card card)
-{
-	if (current_count == MAX_SIZE)
-	{
-		throw std::logic_error("deck is full");
-	}
-
-	if (PlayingCards::findCard(card) != -1)
-	{
-		throw std::logic_error("card already exists");
-	}
-
-	cards[current_count] = card;
-	++current_count;
-
-	return *this;
 }
 
 
