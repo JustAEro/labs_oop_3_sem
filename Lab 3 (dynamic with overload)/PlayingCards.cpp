@@ -311,6 +311,8 @@ PlayingCards& PlayingCards::operator= (PlayingCards&& playing_cards) noexcept
 		delete[] cards;
 	}
 
+	current_count = playing_cards.current_count;
+
 	cards = playing_cards.cards;
 	playing_cards.cards = nullptr;
 	return *this;
