@@ -42,7 +42,7 @@ TEST(DefaultConstructor, TestingDefaultConstructor)
 			{
 				ASSERT_EQ(static_cast<Ranks>(j), playing_cards[index].rank);
 				ASSERT_EQ(static_cast<Suits>(i), playing_cards[index].suit);
-				
+
 				++index;
 			}
 			else
@@ -108,11 +108,11 @@ TEST(InitCountConstructor, TestingInitCountConstructor)
 	PlayingCards playing_cards(20);
 
 	ASSERT_EQ(count, playing_cards.getCurrentCount());
-	
+
 	for (size_t i = 0; i < count; ++i)
 	{
 		Card card_1 = playing_cards[i];
-		
+
 		for (size_t j = 0; j < count; ++j)
 		{
 			if (i != j)
@@ -127,8 +127,8 @@ TEST(InitCountConstructor, TestingInitCountConstructor)
 
 TEST(InitCountConstructorThrow, TestingInitCountConstructor)
 {
-	ASSERT_ANY_THROW(PlayingCards(53));
-	ASSERT_ANY_THROW(PlayingCards(-1));
+	ASSERT_THROW(PlayingCards(53), std::logic_error);
+	ASSERT_THROW(PlayingCards(-1), std::logic_error);
 }
 
 
@@ -154,7 +154,7 @@ TEST(CopyConstuctor, TestingCopyConstructor)
 	ASSERT_EQ(pc_copy.getCurrentCount(), playing_cards.getCurrentCount());
 
 	size_t n = playing_cards.getCurrentCount();
-	
+
 	for (size_t i = 0; i < n; ++i)
 	{
 		ASSERT_EQ(playing_cards[i], pc_copy[i]);
@@ -208,16 +208,16 @@ TEST(IndexingOperatorTesting, OperatorTest)
 TEST(GetterRankThrow, TestingGetters)
 {
 	PlayingCards playing_cards(20);
-	ASSERT_ANY_THROW(playing_cards[21].rank);
-	ASSERT_ANY_THROW(playing_cards[-1].rank);
+	ASSERT_THROW(playing_cards[21].rank, std::range_error);
+	ASSERT_THROW(playing_cards[-1].rank, std::range_error);
 }
 
 
 TEST(GetterSuitThrow, TestingGetters)
 {
 	PlayingCards playing_cards(20);
-	ASSERT_ANY_THROW(playing_cards[21].suit);
-	ASSERT_ANY_THROW(playing_cards[-1].suit);
+	ASSERT_THROW(playing_cards[21].suit, std::range_error);
+	ASSERT_THROW(playing_cards[-1].suit, std::range_error);
 }
 
 
@@ -233,7 +233,7 @@ TEST(FindCard, FindingCards)
 		ASSERT_EQ(i, playing_cards.findCard(card));
 	}
 
-	
+
 	Card card_init = { Suits::Clubs, Ranks::Ace };
 
 	PlayingCards playing_cards_2(card_init);
@@ -263,8 +263,8 @@ TEST(AddNewCardThrowSizeException, AddingCard)
 {
 	PlayingCards playing_cards;
 	Card card_to_add = { Suits::Clubs, Ranks::Ace };
-	
-	ASSERT_ANY_THROW(playing_cards += card_to_add);
+
+	ASSERT_THROW(playing_cards += card_to_add, std::logic_error);
 
 }
 
@@ -275,7 +275,7 @@ TEST(AddNewCardThrowExistException, AddingCard)
 
 	PlayingCards playing_cards(card_init);
 
-	ASSERT_ANY_THROW(playing_cards += card_init);
+	ASSERT_THROW(playing_cards += card_init, std::logic_error);
 }
 
 
@@ -334,7 +334,7 @@ TEST(AddNewRandomCardThrowSizeException, AddingCard)
 {
 	PlayingCards playing_cards;
 
-	ASSERT_ANY_THROW(playing_cards.addNewRandomCard());
+	ASSERT_THROW(playing_cards.addNewRandomCard(), std::logic_error);
 
 }
 
@@ -467,11 +467,11 @@ TEST(SortOfDeck, SortingOfDeck)
 }
 
 
-int main(int argc, wchar_t *argv[])
+int main(int argc, wchar_t* argv[])
 {
-    #if defined (_MSC_VER) && !defined (__INTEL_COMPILER)
+#if defined (_MSC_VER) && !defined (__INTEL_COMPILER)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);   //flag to detect memory leaks in VS
-	#endif
+#endif
 
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
