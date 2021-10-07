@@ -43,6 +43,7 @@ public:
 	explicit PlayingCards(int count);
 	explicit PlayingCards(Card card_init);
 	PlayingCards(const PlayingCards& playing_cards);
+	PlayingCards(PlayingCards&& playing_cards) noexcept;
 
 	~PlayingCards();
 
@@ -59,6 +60,7 @@ public:
 	PlayingCards subGroupOfSameSuit(Suits suit) const noexcept;
 	
 	PlayingCards& operator= (const PlayingCards& playing_cards);
+	PlayingCards& operator= (PlayingCards&& playing_cards) noexcept;
 
 	const Card& operator[] (int i) const;
 

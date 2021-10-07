@@ -183,6 +183,12 @@ PlayingCards::PlayingCards(const PlayingCards& playing_cards): current_count{ pl
 }
 
 
+PlayingCards::PlayingCards(PlayingCards&& playing_cards) noexcept: current_count{ playing_cards.current_count }, cards{ playing_cards.cards }
+{
+	playing_cards.cards = nullptr;
+}
+
+
 std::wostream& operator<<(std::wostream& wos, const PlayingCards& playing_cards)
 {
 	if (playing_cards.current_count == 0)
@@ -289,6 +295,24 @@ PlayingCards& PlayingCards::operator= (const PlayingCards& playing_cards)
 	cards = new Card[current_count];
 	copy_deck(playing_cards.cards, cards, current_count);
 
+	return *this;
+}
+
+
+PlayingCards& PlayingCards::operator= (PlayingCards&& playing_cards) noexcept
+{
+	if (this == &playing_cards)
+	{
+		return *this;
+	}
+
+	if (cards != nullptr)
+	{
+		delete[] cards;
+	}
+
+	cards = playing_cards.cards;
+	playing_cards.cards = nullptr;
 	return *this;
 }
 
