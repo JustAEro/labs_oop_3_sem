@@ -76,9 +76,11 @@ public:
 
 private:
 	static const size_t MAX_SIZE = 52;
+	static const size_t QUOTA = MAX_SIZE / (static_cast<size_t>(Suits::Count));
+	size_t capacity;
 	size_t current_count;
 	Card* cards;
 
-	void copy_deck(const Card* src, Card* dest, size_t len) const;
+	static void copy_deck(const Card* src, Card* dest, size_t len);
 };
 

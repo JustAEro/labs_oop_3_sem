@@ -239,14 +239,15 @@ TEST(AssignmentMovingOperator, OperatorTest)
 
 	Card card_init = { Suits::Clubs, Ranks::Ace };
 	PlayingCards pc_3(card_init);
+	PlayingCards pc_3_copy(pc_3);
+	pc = std::move(pc_3);
 
-	pc = pc_3;
 	ASSERT_EQ(pc.getCurrentCount(), pc_3.getCurrentCount());
 	n = pc.getCurrentCount();
 
 	for (size_t i = 0; i < n; ++i)
 	{
-		ASSERT_EQ(pc_3[i], pc[i]);
+		ASSERT_EQ(pc_3_copy[i], pc[i]);
 	}
 }
 
@@ -307,8 +308,9 @@ TEST(AddNewCard, AddingCard)
 	playing_cards += card_to_add;
 
 	ASSERT_EQ(2, playing_cards.getCurrentCount());
-
+	
 	Card card_new = playing_cards[1];
+	
 	ASSERT_EQ(card_to_add, card_new);
 }
 

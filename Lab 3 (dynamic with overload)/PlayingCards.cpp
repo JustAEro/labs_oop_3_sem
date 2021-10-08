@@ -96,7 +96,7 @@ std::wostream& operator<< (std::wostream& wos, const Card& card)
 }
 
 
-void PlayingCards::copy_deck(const Card* src, Card* dest, size_t src_len) const
+void PlayingCards::copy_deck(const Card* src, Card* dest, size_t src_len)
 {
 	if (src == nullptr)
 	{
@@ -109,13 +109,12 @@ void PlayingCards::copy_deck(const Card* src, Card* dest, size_t src_len) const
 	}
 }
 
-PlayingCards::PlayingCards() : current_count{ 0 }, cards { nullptr } 
+PlayingCards::PlayingCards() : current_count{ 0 }, cards { new Card[MAX_SIZE] }, capacity { MAX_SIZE }
 {
 	size_t suits_count = static_cast<size_t>(Suits::Count);
 	size_t ranks_count = static_cast<size_t>(Ranks::Count);
 
 	bool flag_exit = false;
-	
 
 	for (size_t i = 0; i < suits_count; ++i)
 	{
@@ -128,11 +127,6 @@ PlayingCards::PlayingCards() : current_count{ 0 }, cards { nullptr }
 		{
 			if (current_count < MAX_SIZE)
 			{
-				Card* cards_new = new Card[current_count + 1];
-				copy_deck(cards, cards_new, current_count);
-				delete[] cards;
-				cards = cards_new;
-
 				cards[current_count].rank = static_cast<Ranks>(j);
 				cards[current_count].suit = static_cast<Suits>(i);
 				++current_count;
@@ -147,7 +141,7 @@ PlayingCards::PlayingCards() : current_count{ 0 }, cards { nullptr }
 }
 
 
-PlayingCards::PlayingCards(int count): current_count{ 0 }, cards { nullptr }
+PlayingCards::PlayingCards(int count): current_count{ 0 }, cards { nullptr }, capacity { 0 }
 {
 	if (count < 0 || static_cast<size_t>(count) > MAX_SIZE)
 	{
@@ -161,30 +155,29 @@ PlayingCards::PlayingCards(int count): current_count{ 0 }, cards { nullptr }
 }
 
 
-PlayingCards::PlayingCards(Card card_init): current_count{ 1 }
+PlayingCards::PlayingCards(Card card_init) : current_count{ 1 }, cards{ new Card[QUOTA] }, capacity{ QUOTA }
 {
-	cards = new Card[1];
 	cards[0] = card_init;
 }
 
 
-PlayingCards::PlayingCards(const PlayingCards& playing_cards): current_count{ playing_cards.current_count }, cards{ nullptr }
+PlayingCards::PlayingCards(const PlayingCards& playing_cards): current_count{ playing_cards.current_count }, cards{ nullptr }, capacity { playing_cards.capacity }
 {
+	std::wcout << L"Copy constructor" << std::endl;
+
 	if (current_count != 0)
 	{
-		cards = new Card[current_count];
+		cards = new Card[capacity];
 	}
 	
-	for (size_t i = 0; i < current_count; ++i)
-	{
-		cards[i] = playing_cards.cards[i];
-	}
-
+	copy_deck(playing_cards.cards, cards, current_count);
 }
 
 
-PlayingCards::PlayingCards(PlayingCards&& playing_cards) noexcept: current_count{ playing_cards.current_count }, cards{ playing_cards.cards }
+PlayingCards::PlayingCards(PlayingCards&& playing_cards) noexcept: current_count{ playing_cards.current_count }, cards{ playing_cards.cards }, capacity{ playing_cards.capacity }
 {
+	std::wcout << L"Moving constructor" << std::endl;
+
 	playing_cards.cards = nullptr;
 }
 
@@ -232,10 +225,21 @@ PlayingCards& PlayingCards::addNewRandomCard()
 		find = PlayingCards::findCard(new_card);
 	} while (find != -1);
 
-	Card* cards_new = new Card[current_count + 1];
-	copy_deck(cards, cards_new, current_count);
-	delete[] cards;
-	cards = cards_new;
+	if (capacity == current_count)
+	{
+		if (capacity + QUOTA > MAX_SIZE)
+		{
+			capacity = MAX_SIZE;
+		}
+		else
+		{
+			capacity += QUOTA;
+		}
+		Card* cards_new = new Card[capacity];
+		copy_deck(cards, cards_new, current_count);
+		delete[] cards;
+		cards = cards_new;
+	}
 
 	cards[current_count] = new_card;
 	++current_count;
@@ -266,13 +270,7 @@ PlayingCards PlayingCards::subGroupOfSameSuit(Suits suit) const noexcept
 	{
 		if (cards[i].suit == suit)
 		{
-			Card* cards_new = new Card[result.current_count + 1];
-			copy_deck(result.cards, cards_new, result.current_count);
-			delete[] result.cards;
-			result.cards = cards_new;
-
-			result.cards[result.current_count] = cards[i];
-			++(result.current_count);
+			result += cards[i];
 		}
 	}
 	return result;
@@ -281,6 +279,8 @@ PlayingCards PlayingCards::subGroupOfSameSuit(Suits suit) const noexcept
 
 PlayingCards& PlayingCards::operator= (const PlayingCards& playing_cards)
 {
+	std::wcout << L"Copying =" << std::endl;
+
 	if (this == &playing_cards)
 	{
 		return *this;
@@ -292,7 +292,9 @@ PlayingCards& PlayingCards::operator= (const PlayingCards& playing_cards)
 	}
 
 	current_count = playing_cards.current_count;
-	cards = new Card[current_count];
+	capacity = playing_cards.capacity;
+	cards = new Card[capacity];
+	
 	copy_deck(playing_cards.cards, cards, current_count);
 
 	return *this;
@@ -301,6 +303,8 @@ PlayingCards& PlayingCards::operator= (const PlayingCards& playing_cards)
 
 PlayingCards& PlayingCards::operator= (PlayingCards&& playing_cards) noexcept
 {
+	std::wcout << L"Moving =" << std::endl;
+
 	if (this == &playing_cards)
 	{
 		return *this;
@@ -312,8 +316,9 @@ PlayingCards& PlayingCards::operator= (PlayingCards&& playing_cards) noexcept
 	}
 
 	current_count = playing_cards.current_count;
-
 	cards = playing_cards.cards;
+	capacity = playing_cards.capacity;
+
 	playing_cards.cards = nullptr;
 	return *this;
 }
@@ -342,10 +347,21 @@ PlayingCards& PlayingCards::operator+= (Card card)
 		throw std::logic_error("card already exists");
 	}
 
-	Card* cards_new = new Card[current_count + 1];
-	copy_deck(cards, cards_new, current_count);
-	delete[] cards;
-	cards = cards_new;
+	if (capacity == current_count)
+	{
+		if (capacity + QUOTA > MAX_SIZE)
+		{
+			capacity = MAX_SIZE;
+		}
+		else
+		{
+			capacity += QUOTA;
+		}
+		Card* cards_new = new Card[capacity];
+		copy_deck(cards, cards_new, current_count);
+		delete[] cards;
+		cards = cards_new;
+	}
 
 	cards[current_count] = card;
 	++current_count;
@@ -371,5 +387,6 @@ const PlayingCards PlayingCards::operator++(int)
 
 PlayingCards::~PlayingCards()
 {
+	std::wcout << L"Destructor" << std::endl;
 	delete[] cards;
 }
