@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 #include <string>
 #include <sstream>
@@ -17,6 +18,9 @@ private:
 	std::string problems[COUNT_OF_PROBLEMS];
 	bool isTeacher;
 	Set answers[COUNT_OF_PROBLEMS];
+
+	SetTheoryProblems& generateProblems() noexcept;
+	SetTheoryProblems& calculateAnswers() noexcept;
 
 
 public:
@@ -38,8 +42,6 @@ public:
 	SetTheoryProblems& setA(const Set& set) noexcept;
 	SetTheoryProblems& setB(const Set& set) noexcept;
 
-	SetTheoryProblems& generateProblems() noexcept;
-	SetTheoryProblems& calculateAnswers() noexcept;
 };
 
 

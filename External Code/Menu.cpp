@@ -43,6 +43,14 @@ int D_Log_In_Teacher(SetTheoryProblems& setTheoryProblems)
 	std::cout << "Enter password" << std::endl;
 	std::cin.ignore();
 
+	#if defined(_WIN32)
+	HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+	DWORD mode = 0;
+	GetConsoleMode(hStdin, &mode);
+	SetConsoleMode(hStdin, mode & (~ENABLE_ECHO_INPUT));
+	#endif
+
+
 	std::string str;
 	std::getline(std::cin, str);
 
@@ -51,6 +59,10 @@ int D_Log_In_Teacher(SetTheoryProblems& setTheoryProblems)
 		std::cout << "EOF" << std::endl;
 		return -1;
 	}
+
+	#if defined(_WIN32)
+	SetConsoleMode(hStdin, mode); 
+    #endif
 
 	if (setTheoryProblems.getPassword() == str)
 	{
@@ -80,6 +92,345 @@ int D_Log_Out_Teacher(SetTheoryProblems& setTheoryProblems)
 }
 
 
+int D_Solve_Problem_Union(SetTheoryProblems& setTheoryProblems)
+{
+	std::cout << setTheoryProblems.getProblems()[0] << std::endl;
+
+	size_t n = setTheoryProblems.getA().getCapacity() + setTheoryProblems.getB().getCapacity();
+
+
+	std::cout << "Enter your answer (press Enter, then Ctrl+Z when you finish) --> " << std::endl;
+
+
+	int* vec = new int[n];
+
+	for (size_t i = 0; i < n; ++i)
+	{
+		int x;
+		int status = get_T(x);
+
+		if (status == -1)
+		{
+			Set answer(i, vec);
+
+			if (answer == setTheoryProblems.getAnswers()[0])
+			{
+				std::cout << "Congratulations! The answer is correct." << std::endl;
+			}
+			else
+			{
+				std::cout << "Wrong answer! Try again!" << std::endl;
+			}
+			
+			delete[] vec;
+			std::cin.clear();
+
+			return 0;
+		}
+
+		vec[i] = x;
+	}
+
+	Set answer(n, vec);
+
+	if (answer == setTheoryProblems.getAnswers()[0])
+	{
+		std::cout << "Congratulations! The answer is correct." << std::endl;
+	}
+	else
+	{
+		std::cout << "Wrong answer! Try again!" << std::endl;
+	}
+
+	delete[] vec;
+	return 0;
+}
+
+
+int D_Solve_Problem_Intersection(SetTheoryProblems& setTheoryProblems)
+{
+	std::cout << setTheoryProblems.getProblems()[1] << std::endl;
+
+	size_t n = (std::min)(setTheoryProblems.getA().getCapacity(), setTheoryProblems.getB().getCapacity());
+
+
+	std::cout << "Enter your answer (press Enter, then Ctrl+Z when you finish) --> " << std::endl;
+
+	
+	int* vec = new int[n];
+
+	for (size_t i = 0; i < n; ++i)
+	{
+		int x;
+		int status = get_T(x);
+
+		if (status == -1)
+		{
+			Set answer(i, vec);
+
+			if (answer == setTheoryProblems.getAnswers()[1])
+			{
+				std::cout << "Congratulations! The answer is correct." << std::endl;
+			}
+			else
+			{
+				std::cout << "Wrong answer! Try again!" << std::endl;
+			}
+
+			delete[] vec;
+			std::cin.clear();
+
+			return 0;
+		}
+		
+		vec[i] = x;
+	}
+
+	Set answer(n, vec);
+
+	if (answer == setTheoryProblems.getAnswers()[1])
+	{
+		std::cout << "Congratulations! The answer is correct." << std::endl;
+	}
+	else
+	{
+		std::cout << "Wrong answer! Try again!" << std::endl;
+	}
+
+	delete[] vec;
+	return 0;
+}
+
+
+int D_Solve_Problem_Difference(SetTheoryProblems& setTheoryProblems)
+{
+	std::cout << setTheoryProblems.getProblems()[2] << std::endl;
+
+	size_t n = setTheoryProblems.getA().getCapacity();
+
+
+	std::cout << "Enter your answer (press Enter, then Ctrl+Z when you finish) --> " << std::endl;
+
+
+	int* vec = new int[n];
+
+	for (size_t i = 0; i < n; ++i)
+	{
+		int x;
+		int status = get_T(x);
+
+		if (status == -1)
+		{
+			Set answer(i, vec);
+
+			if (answer == setTheoryProblems.getAnswers()[2])
+			{
+				std::cout << "Congratulations! The answer is correct." << std::endl;
+			}
+			else
+			{
+				std::cout << "Wrong answer! Try again!" << std::endl;
+			}
+
+			delete[] vec;
+			std::cin.clear();
+
+			return 0;
+		}
+
+		vec[i] = x;
+	}
+
+	Set answer(n, vec);
+
+	if (answer == setTheoryProblems.getAnswers()[2])
+	{
+		std::cout << "Congratulations! The answer is correct." << std::endl;
+	}
+	else
+	{
+		std::cout << "Wrong answer! Try again!" << std::endl;
+	}
+
+	delete[] vec;
+	return 0;
+}
+
+
+int D_Solve_Problem_Symmetric_Difference(SetTheoryProblems& setTheoryProblems)
+{
+	std::cout << setTheoryProblems.getProblems()[3] << std::endl;
+
+	size_t n = setTheoryProblems.getA().getCapacity() + setTheoryProblems.getB().getCapacity();
+
+
+	std::cout << "Enter your answer (press Enter, then Ctrl+Z when you finish) --> " << std::endl;
+
+
+	int* vec = new int[n];
+
+	for (size_t i = 0; i < n; ++i)
+	{
+		int x;
+		int status = get_T(x);
+
+		if (status == -1)
+		{
+			Set answer(i, vec);
+
+			if (answer == setTheoryProblems.getAnswers()[3])
+			{
+				std::cout << "Congratulations! The answer is correct." << std::endl;
+			}
+			else
+			{
+				std::cout << "Wrong answer! Try again!" << std::endl;
+			}
+
+			delete[] vec;
+			std::cin.clear();
+
+			return 0;
+		}
+
+		vec[i] = x;
+	}
+
+	Set answer(n, vec);
+
+	if (answer == setTheoryProblems.getAnswers()[3])
+	{
+		std::cout << "Congratulations! The answer is correct." << std::endl;
+	}
+	else
+	{
+		std::cout << "Wrong answer! Try again!" << std::endl;
+	}
+
+	delete[] vec;
+	return 0;
+}
+
+
+int D_Set_A(SetTheoryProblems& setTheoryProblems)
+{
+	if (setTheoryProblems.getIsTeacher() == false)
+	{
+		std::cout << "Error! You can't edit the sets if you're not a teacher!" << std::endl;
+		return 0;
+	}
+
+	std::cout << "Enter the size of A: " << std::endl;
+
+	int size_A;
+	int status = get_T(size_A);
+
+	if (status == -1) 
+	{
+		std::cout << "EOF" << std::endl;
+		return -1;
+	}
+
+	if (size_A < 0)
+	{
+		std::cout << "Error! The size of set can't be < 0. Try again!" << std::endl;
+		return 0;
+	}
+
+	int* vec = new int[size_A];
+
+	if (size_A != 0)
+	{
+		std::cout << "Enter the elements of A: " << std::endl;
+		std::cout << "Hint: If you entered larger size than needed, keep in mind:" << std::endl;
+		std::cout << "Elements that are already in the set will not be added to it." << std::endl;
+
+		std::cout << "And if you entered smaller size, you can try again." << std::endl;
+	}
+	
+	for (int i = 0; i < size_A; ++i)
+	{
+		int x;
+		status = get_T(x);
+
+		if (status == -1)
+		{
+			std::cout << "EOF" << std::endl;
+			delete[] vec;
+			return -1;
+		}
+
+		vec[i] = x;
+	}
+
+	setTheoryProblems.setA(Set(size_A, vec));
+
+	delete[] vec;
+
+	return 0;
+}
+
+
+int D_Set_B(SetTheoryProblems& setTheoryProblems)
+{
+	if (setTheoryProblems.getIsTeacher() == false)
+	{
+		std::cout << "Error! You can't edit the sets if you're not a teacher!" << std::endl;
+		return 0;
+	}
+
+	std::cout << "Enter the size of B: " << std::endl;
+
+	int size_B;
+	int status = get_T(size_B);
+
+	if (status == -1)
+	{
+		std::cout << "EOF" << std::endl;
+		return -1;
+	}
+
+	if (size_B < 0)
+	{
+		std::cout << "Error! The size of set can't be < 0. Try again!" << std::endl;
+		return 0;
+	}
+
+	if (size_B != 0)
+	{
+		std::cout << "Enter the elements of B: " << std::endl;
+		std::cout << "Hint: If you entered larger size than needed, keep in mind:" << std::endl;
+		std::cout << "Elements that are already in the set will not be added to it." << std::endl;
+
+		std::cout << "And if you entered smaller size, you can try again." << std::endl;
+	}
+	
+	int* vec = new int[size_B];
+
+	for (int i = 0; i < size_B; ++i)
+	{
+		int x;
+		status = get_T(x);
+
+		if (status == -1)
+		{
+			std::cout << "EOF" << std::endl;
+			delete[] vec;
+			return -1;
+		}
+
+		vec[i] = x;
+	}
+
+	setTheoryProblems.setB(Set(size_B, vec));
+
+	delete[] vec;
+
+	return 0;
+}
+
+
+
 int D_Show_Answers(SetTheoryProblems& setTheoryProblems)
 {
 	if (setTheoryProblems.getIsTeacher() == false)
@@ -107,6 +458,14 @@ int D_Show_Answers(SetTheoryProblems& setTheoryProblems)
 		std::cout << answers[i] << std::endl;
 	}
 
+	return 0;
+}
+
+
+int D_Print_Sets(SetTheoryProblems& setTheoryProblems)
+{
+	std::cout << "The current A and B are:" << std::endl;
+	std::cout << "A = " << setTheoryProblems.getA() << std::endl << "B = " << setTheoryProblems.getB() << std::endl;
 	return 0;
 }
 
@@ -147,9 +506,15 @@ void start_menu(SetTheoryProblems& setTheoryProblems)
 														
 														D_Problems_New,
 														D_Log_In_Teacher,
-
 														D_Log_Out_Teacher, 
 														D_Show_Answers,
+														D_Solve_Problem_Union,
+														D_Solve_Problem_Intersection, 
+														D_Solve_Problem_Difference,
+													    D_Solve_Problem_Symmetric_Difference,
+														D_Set_A,
+														D_Set_B,
+														D_Print_Sets
 	};
 
 
@@ -159,7 +524,13 @@ void start_menu(SetTheoryProblems& setTheoryProblems)
 
 										"3. Log out of teacher's profile",  "4. Show answers (only for teacher)",
 
+										"5. Solve problem with union of two sets", "6. Solve problem with intersection of two sets",
 										
+										"7. Solve problem with difference of two sets", "8. Solve problem with symmetric difference of two sets",
+										
+										"9. Init new set A (only for teacher)", "10. Init new set B (only for teacher)",
+						
+										"11. Print current sets"
 
 	};
 

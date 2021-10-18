@@ -26,6 +26,8 @@ public:
 	Set(Set&& other) noexcept;
 	Set& operator= (Set&& other) noexcept;
 
+	size_t getCapacity() const { return capacity; }
+
 	bool insert(int val);
 	void show(std::ostream& out = std::cout) const;
 	bool isexist(int val) const;

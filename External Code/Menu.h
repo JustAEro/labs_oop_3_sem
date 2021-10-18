@@ -1,7 +1,14 @@
 #pragma once
+
+#if defined(_WIN32)
+#include <Windows.h>
+#define NOMINMAX
+#endif
+
 #include <iostream>
 #include <random>
 #include <string>
+#include <vector>
 #include "DynSet.h"
 #include "SetTheoryProblems.h"
 
@@ -12,6 +19,13 @@ int	D_Problems_New(SetTheoryProblems&);   //construct problems for new sets
 int D_Log_In_Teacher(SetTheoryProblems&);      //log in to the teacher's profile
 int D_Log_Out_Teacher(SetTheoryProblems&);  //log out of the teacher's profile
 int D_Show_Answers(SetTheoryProblems&);     //show answers for problems
+int D_Solve_Problem_Union(SetTheoryProblems&);  //solve problem with union of 2 sets
+int D_Solve_Problem_Intersection(SetTheoryProblems&);  //solve problem with intersection of 2 sets
+int D_Solve_Problem_Difference(SetTheoryProblems&);  //solve problem with difference of 2 sets
+int D_Solve_Problem_Symmetric_Difference(SetTheoryProblems&); //solve problem with symmetric difference of 2 sets
+int D_Set_A(SetTheoryProblems&);   //initialize Set A with new int values
+int D_Set_B(SetTheoryProblems&);   //initialize Set B with new int values
+int D_Print_Sets(SetTheoryProblems&); //print the current 2 sets
 
 
 
@@ -35,7 +49,7 @@ template <typename T> int get_T(T& x)		//get argument of T type from std::cin
 
 
 		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 		std::cin.clear();
 		//ignore incorrect input until the end of the stream or until the end of the line and clear flag of errors
 
