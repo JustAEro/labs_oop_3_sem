@@ -345,7 +345,7 @@ int D_Set_A(SetTheoryProblems& setTheoryProblems)
 		std::cout << "Hint: If you entered larger size than needed, keep in mind:" << std::endl;
 		std::cout << "Elements that are already in the set will not be added to it." << std::endl;
 
-		std::cout << "And if you entered smaller size, you can try again." << std::endl;
+		std::cout << "And if you entered smaller size, you can try again by pressing Ctrl+Z." << std::endl;
 	}
 	
 	for (int i = 0; i < size_A; ++i)
@@ -355,9 +355,10 @@ int D_Set_A(SetTheoryProblems& setTheoryProblems)
 
 		if (status == -1)
 		{
-			std::cout << "EOF" << std::endl;
+			std::cout << "Exiting from the function" << std::endl;
 			delete[] vec;
-			return -1;
+			std::cin.clear();
+			return 0;
 		}
 
 		vec[i] = x;
@@ -402,7 +403,7 @@ int D_Set_B(SetTheoryProblems& setTheoryProblems)
 		std::cout << "Hint: If you entered larger size than needed, keep in mind:" << std::endl;
 		std::cout << "Elements that are already in the set will not be added to it." << std::endl;
 
-		std::cout << "And if you entered smaller size, you can try again." << std::endl;
+		std::cout << "And if you entered smaller size, you can try again by pressing Ctrl+Z." << std::endl;
 	}
 	
 	int* vec = new int[size_B];
@@ -414,9 +415,10 @@ int D_Set_B(SetTheoryProblems& setTheoryProblems)
 
 		if (status == -1)
 		{
-			std::cout << "EOF" << std::endl;
+			std::cout << "Exiting from the function" << std::endl;
 			delete[] vec;
-			return -1;
+			std::cin.clear();
+			return 0;
 		}
 
 		vec[i] = x;
