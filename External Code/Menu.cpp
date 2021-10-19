@@ -151,7 +151,7 @@ int D_Solve_Problem_Intersection(SetTheoryProblems& setTheoryProblems)
 {
 	std::cout << setTheoryProblems.getProblems()[1] << std::endl;
 
-	size_t n = (std::min)(setTheoryProblems.getA().getCapacity(), setTheoryProblems.getB().getCapacity());
+	size_t n = setTheoryProblems.getA().getCapacity() + setTheoryProblems.getB().getCapacity();
 
 
 	std::cout << "Enter your answer (press Enter, then Ctrl+Z when you finish) --> " << std::endl;
@@ -206,7 +206,7 @@ int D_Solve_Problem_Difference(SetTheoryProblems& setTheoryProblems)
 {
 	std::cout << setTheoryProblems.getProblems()[2] << std::endl;
 
-	size_t n = setTheoryProblems.getA().getCapacity();
+	size_t n = setTheoryProblems.getA().getCapacity() + setTheoryProblems.getB().getCapacity();
 
 
 	std::cout << "Enter your answer (press Enter, then Ctrl+Z when you finish) --> " << std::endl;
