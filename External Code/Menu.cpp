@@ -92,9 +92,9 @@ int D_Log_Out_Teacher(SetTheoryProblems& setTheoryProblems)
 }
 
 
-int D_Solve_Problem_Union(SetTheoryProblems& setTheoryProblems)
+int solve_problem(SetTheoryProblems& setTheoryProblems, size_t index)
 {
-	std::cout << setTheoryProblems.getProblems()[0] << std::endl;
+	std::cout << setTheoryProblems.getProblems()[index] << std::endl;
 
 	size_t n = setTheoryProblems.getA().getCapacity() + setTheoryProblems.getB().getCapacity();
 
@@ -113,7 +113,7 @@ int D_Solve_Problem_Union(SetTheoryProblems& setTheoryProblems)
 		{
 			Set answer(i, vec);
 
-			if (answer == setTheoryProblems.getAnswers()[0])
+			if (answer == setTheoryProblems.getAnswers()[index])
 			{
 				std::cout << "Congratulations! The answer is correct." << std::endl;
 			}
@@ -121,7 +121,7 @@ int D_Solve_Problem_Union(SetTheoryProblems& setTheoryProblems)
 			{
 				std::cout << "Wrong answer! Try again!" << std::endl;
 			}
-			
+
 			delete[] vec;
 			std::cin.clear();
 
@@ -133,7 +133,7 @@ int D_Solve_Problem_Union(SetTheoryProblems& setTheoryProblems)
 
 	Set answer(n, vec);
 
-	if (answer == setTheoryProblems.getAnswers()[0])
+	if (answer == setTheoryProblems.getAnswers()[index])
 	{
 		std::cout << "Congratulations! The answer is correct." << std::endl;
 	}
@@ -144,171 +144,30 @@ int D_Solve_Problem_Union(SetTheoryProblems& setTheoryProblems)
 
 	delete[] vec;
 	return 0;
+}
+
+
+int D_Solve_Problem_Union(SetTheoryProblems& setTheoryProblems)
+{
+	return solve_problem(setTheoryProblems, 0);
 }
 
 
 int D_Solve_Problem_Intersection(SetTheoryProblems& setTheoryProblems)
 {
-	std::cout << setTheoryProblems.getProblems()[1] << std::endl;
-
-	size_t n = setTheoryProblems.getA().getCapacity() + setTheoryProblems.getB().getCapacity();
-
-
-	std::cout << "Enter your answer (press Enter, then Ctrl+Z when you finish) --> " << std::endl;
-
-	
-	int* vec = new int[n];
-
-	for (size_t i = 0; i < n; ++i)
-	{
-		int x;
-		int status = get_T(x);
-
-		if (status == -1)
-		{
-			Set answer(i, vec);
-
-			if (answer == setTheoryProblems.getAnswers()[1])
-			{
-				std::cout << "Congratulations! The answer is correct." << std::endl;
-			}
-			else
-			{
-				std::cout << "Wrong answer! Try again!" << std::endl;
-			}
-
-			delete[] vec;
-			std::cin.clear();
-
-			return 0;
-		}
-		
-		vec[i] = x;
-	}
-
-	Set answer(n, vec);
-
-	if (answer == setTheoryProblems.getAnswers()[1])
-	{
-		std::cout << "Congratulations! The answer is correct." << std::endl;
-	}
-	else
-	{
-		std::cout << "Wrong answer! Try again!" << std::endl;
-	}
-
-	delete[] vec;
-	return 0;
+	return solve_problem(setTheoryProblems, 1);
 }
 
 
 int D_Solve_Problem_Difference(SetTheoryProblems& setTheoryProblems)
 {
-	std::cout << setTheoryProblems.getProblems()[2] << std::endl;
-
-	size_t n = setTheoryProblems.getA().getCapacity() + setTheoryProblems.getB().getCapacity();
-
-
-	std::cout << "Enter your answer (press Enter, then Ctrl+Z when you finish) --> " << std::endl;
-
-
-	int* vec = new int[n];
-
-	for (size_t i = 0; i < n; ++i)
-	{
-		int x;
-		int status = get_T(x);
-
-		if (status == -1)
-		{
-			Set answer(i, vec);
-
-			if (answer == setTheoryProblems.getAnswers()[2])
-			{
-				std::cout << "Congratulations! The answer is correct." << std::endl;
-			}
-			else
-			{
-				std::cout << "Wrong answer! Try again!" << std::endl;
-			}
-
-			delete[] vec;
-			std::cin.clear();
-
-			return 0;
-		}
-
-		vec[i] = x;
-	}
-
-	Set answer(n, vec);
-
-	if (answer == setTheoryProblems.getAnswers()[2])
-	{
-		std::cout << "Congratulations! The answer is correct." << std::endl;
-	}
-	else
-	{
-		std::cout << "Wrong answer! Try again!" << std::endl;
-	}
-
-	delete[] vec;
-	return 0;
+	return solve_problem(setTheoryProblems, 2);
 }
 
 
 int D_Solve_Problem_Symmetric_Difference(SetTheoryProblems& setTheoryProblems)
 {
-	std::cout << setTheoryProblems.getProblems()[3] << std::endl;
-
-	size_t n = setTheoryProblems.getA().getCapacity() + setTheoryProblems.getB().getCapacity();
-
-
-	std::cout << "Enter your answer (press Enter, then Ctrl+Z when you finish) --> " << std::endl;
-
-
-	int* vec = new int[n];
-
-	for (size_t i = 0; i < n; ++i)
-	{
-		int x;
-		int status = get_T(x);
-
-		if (status == -1)
-		{
-			Set answer(i, vec);
-
-			if (answer == setTheoryProblems.getAnswers()[3])
-			{
-				std::cout << "Congratulations! The answer is correct." << std::endl;
-			}
-			else
-			{
-				std::cout << "Wrong answer! Try again!" << std::endl;
-			}
-
-			delete[] vec;
-			std::cin.clear();
-
-			return 0;
-		}
-
-		vec[i] = x;
-	}
-
-	Set answer(n, vec);
-
-	if (answer == setTheoryProblems.getAnswers()[3])
-	{
-		std::cout << "Congratulations! The answer is correct." << std::endl;
-	}
-	else
-	{
-		std::cout << "Wrong answer! Try again!" << std::endl;
-	}
-
-	delete[] vec;
-	return 0;
+	return solve_problem(setTheoryProblems, 3);
 }
 
 

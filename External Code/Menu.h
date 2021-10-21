@@ -28,6 +28,9 @@ int D_Set_B(SetTheoryProblems&);   //initialize Set B with new int values
 int D_Print_Sets(SetTheoryProblems&); //print the current 2 sets
 
 
+int solve_problem(SetTheoryProblems&, size_t);
+
+
 
 void start_menu(SetTheoryProblems&);			//function to start menu in application program
 
