@@ -131,6 +131,23 @@ int solve_problem(SetTheoryProblems& setTheoryProblems, size_t index)
 		vec[i] = x;
 	}
 
+	int x;
+	std::cin >> x;
+	if (std::cin.good())
+	{
+		std::cin.clear();
+		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+		std::cin.clear();
+
+		std::cout << "Wrong answer! Try again!" << std::endl;
+		delete[] vec;
+		return 0;
+	}
+	else
+	{
+		std::cin.clear();
+	}
+
 	Set answer(n, vec);
 
 	if (answer == setTheoryProblems.getAnswers()[index])
@@ -186,8 +203,9 @@ int D_Set_A(SetTheoryProblems& setTheoryProblems)
 
 	if (status == -1) 
 	{
-		std::cout << "EOF" << std::endl;
-		return -1;
+		std::cout << "Exit from function" << std::endl;
+		std::cin.clear();
+		return 0;
 	}
 
 	if (size_A < 0)
@@ -246,8 +264,9 @@ int D_Set_B(SetTheoryProblems& setTheoryProblems)
 
 	if (status == -1)
 	{
-		std::cout << "EOF" << std::endl;
-		return -1;
+		std::cout << "Exit from function" << std::endl;
+		std::cin.clear();
+		return 0;
 	}
 
 	if (size_B < 0)
