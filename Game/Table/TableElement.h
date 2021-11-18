@@ -122,11 +122,11 @@ public:
 	int addShip(Ship* ship_);
 	int removeShip(int id);
 
-	TableIterator begin() { return TableIterator(tableElements.begin()); }
-	TableIterator end() { return TableIterator(tableElements.end()); }
+	TableIterator begin() noexcept { return TableIterator(tableElements.begin()); }
+	TableIterator end() noexcept { return TableIterator(tableElements.end()); }
 
-	ConstTableIterator cbegin() { return ConstTableIterator(tableElements.cbegin()); }
-	ConstTableIterator cend() { return ConstTableIterator(tableElements.cend()); }
+	ConstTableIterator cbegin() const noexcept { return ConstTableIterator(tableElements.cbegin()); }
+	ConstTableIterator cend() const noexcept { return ConstTableIterator(tableElements.cend()); }
 
 	~Table();
 };

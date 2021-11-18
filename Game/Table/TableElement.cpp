@@ -30,7 +30,7 @@ Ship* Table::getShipByID(int id) const
 {
 	std::map<int, Ship*>::const_iterator it = tableElements.find(id);
 
-	if (ConstTableIterator(it) == tableElements.cend())
+	if (ConstTableIterator(it) == Table::cend())
 	{
 		return nullptr;
 	}
