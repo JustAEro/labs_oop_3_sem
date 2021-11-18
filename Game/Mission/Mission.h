@@ -18,8 +18,8 @@ private:
 	int lostWeight;
 	int carriedWeight;
 
-	const int maxCountOfShipsConvoy;
-	const int maxCountOfShipsPirates;
+	int maxCountOfShipsConvoy;
+	int maxCountOfShipsPirates;
 
 	int sizeA;
 	Point coordinatesA;

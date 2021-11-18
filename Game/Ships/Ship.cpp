@@ -173,7 +173,7 @@ TransportShip& TransportShip::setWeight(int weight)
 
 TransportShip& TransportShip::calculateMaxVelocity()
 {
-    ratio = (maxWeight - currentWeight) / maxWeight;
+    ratio = (maxWeight + currentWeight) / maxWeight;
     maxVelocity /= ratio;
     return *this;
 }

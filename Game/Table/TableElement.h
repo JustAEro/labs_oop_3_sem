@@ -1,38 +1,26 @@
 #pragma once
 #include <array>
 #include <vector>
+#include <utility>
+#include <map>
 #include "../Ships/Ship.h"
 
 //std::array <char, 6> Aliases = { 'A', 'B', 'C', '1', '2', '3' };
 
-class TableElement
-{
-private:
-	Ship* ship;
-	int id;
-
-public:
-	TableElement() : ship(nullptr), id(0) 
-	{}
-
-	TableElement(Ship* ship_, int id_) : ship(ship_), id(id_)
-	{}
-	
-};
-
 class TableIterator
 {
 private:
-	TableElement* cur;
+
+	std::map<int, Ship*>::iterator cur;
 
 public:
-	TableIterator() : cur(nullptr)
+	TableIterator() : cur()
 	{}
 
-	TableIterator(TableElement* elPtr) : cur(elPtr)
+	TableIterator(const std::map<int, Ship*>::iterator& elPtr) : cur(elPtr)
 	{}
 
-	TableElement& operator* () const { return *cur; }
+	std::pair<int, Ship*> operator* ()  { return *cur; }
 
 	bool operator== (const TableIterator& it) const { return (it.cur == cur); }
 	bool operator!= (const TableIterator& it) const { return (it.cur != cur); }
@@ -63,45 +51,84 @@ public:
 		return prev;
 	}
 
+};
 
-	TableIterator& operator+(int n)
+
+class ConstTableIterator
+{
+private:
+
+	std::map<int, Ship*>::const_iterator cur;
+
+public:
+	ConstTableIterator() : cur()
+	{}
+
+	ConstTableIterator(const std::map<int, Ship*>::const_iterator& elPtr) : cur(elPtr)
+	{}
+
+	std::pair<int, Ship*> operator* () { return *cur; }
+
+	bool operator== (const ConstTableIterator& it) const { return (it.cur == cur); }
+	bool operator!= (const ConstTableIterator& it) const { return (it.cur != cur); }
+
+	ConstTableIterator& operator++()
 	{
-		cur += n;
+		++cur;
 		return *this;
 	}
 
-	TableIterator& operator-(int n)
+	ConstTableIterator operator++(int)
 	{
-		cur -= n;
+		ConstTableIterator prev(*this);
+		cur++;
+		return prev;
+	}
+
+	ConstTableIterator& operator--()
+	{
+		--cur;
 		return *this;
 	}
+
+	ConstTableIterator operator--(int)
+	{
+		ConstTableIterator prev(*this);
+		cur--;
+		return prev;
+	}
+
 };
 
 
 class Table
 {
 	friend class TableIterator;
+	friend class ConstTableIterator;
 
 private:
-	std::vector <TableElement> tableElements;
+	std::map<int, Ship*> tableElements;
 
 public:
-	Table() : tableElements()
+	Table() : tableElements{}
 	{}
 
-	Table(std::vector <TableElement>& elements) : tableElements(elements)
+	Table(const std::map<int, Ship*>& elements_) : tableElements(elements_)
 	{}
-
-
 
 	Ship* getShipByID(int id) const;
 	int getCountOfShips() const;
 
-	Table& addShip();
-	Table& removeShip();
+	int addShip(Ship* ship_);
+	int removeShip(int id);
 
-	TableIterator begin() { return TableIterator(&tableElements[0]); }
-	TableIterator end() { return TableIterator(&tableElements[0] + tableElements.size()); }
+	TableIterator begin() { return TableIterator(tableElements.begin()); }
+	TableIterator end() { return TableIterator(tableElements.end()); }
+
+	ConstTableIterator cbegin() { return ConstTableIterator(tableElements.cbegin()); }
+	ConstTableIterator cend() { return ConstTableIterator(tableElements.cend()); }
+
+	~Table();
 };
 
 
