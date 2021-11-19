@@ -66,6 +66,7 @@ public:
 	Weapon& setDamage(int damage_);
 	Weapon& setFireRate(int fireRate_);
 	Weapon& setCurrentAmmo(int curAmmo_);
+	Weapon& setMaxAmmo(int maxAmmo_);
 	Weapon& setCost(int cost_);
 	Weapon& setFireRange(int range_);
 	Weapon& setIsShooting(bool status_);

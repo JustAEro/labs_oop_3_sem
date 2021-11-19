@@ -14,9 +14,9 @@ int Table::addShip(Ship* ship_)
 
 int Table::removeShip(int id)
 {
-	std::map<int, Ship*>::const_iterator it = tableElements.find(id);
+	std::map<int, Ship*>::iterator it = tableElements.find(id);
 
-	if (ConstTableIterator(it) == tableElements.cend())
+	if (Table::iterator(it) == tableElements.end())
 	{
 		return -1;  //not found
 	}
@@ -30,7 +30,7 @@ Ship* Table::getShipByID(int id) const
 {
 	std::map<int, Ship*>::const_iterator it = tableElements.find(id);
 
-	if (ConstTableIterator(it) == Table::cend())
+	if (Table::const_iterator(it) == Table::cend())
 	{
 		return nullptr;
 	}
@@ -41,7 +41,7 @@ Ship* Table::getShipByID(int id) const
 
 Table::~Table()
 {
-	for (TableIterator it = Table::begin(); it != Table::end(); ++it)
+	for (Table::iterator it = Table::begin(); it != Table::end(); ++it)
 	{
 		delete (*it).second;
 	}

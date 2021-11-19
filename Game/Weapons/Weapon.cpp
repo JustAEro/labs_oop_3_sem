@@ -84,6 +84,12 @@ Weapon& Weapon::setCurrentAmmo(int curAmmo_)
 	return *this;
 }
 
+Weapon& Weapon::setMaxAmmo(int maxAmmo_)
+{
+	maxAmmo = maxAmmo_;
+	return *this;
+}
+
 Weapon& Weapon::setCost(int cost_)
 {
 	cost = cost_;

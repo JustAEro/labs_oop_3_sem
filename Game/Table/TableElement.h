@@ -106,6 +106,9 @@ class Table
 	friend class TableIterator;
 	friend class ConstTableIterator;
 
+	using iterator = TableIterator;
+	using const_iterator = ConstTableIterator;
+
 private:
 	std::map<int, Ship*> tableElements;
 

@@ -1,6 +1,7 @@
 #include "Ship.h"
 #include <stdexcept>
 
+
 bool operator== (const Captain& cap1, const Captain& cap2)
 {
     return ((cap1.fullName == cap2.fullName) && (cap1.rank == cap2.rank));
@@ -35,6 +36,12 @@ Ship& Ship::setCaptain(const Captain& cap_)
     return *this;
 }
 
+Ship& Ship::setMaxVelocity(int maxVelocity_)
+{
+    maxVelocity = maxVelocity_;
+    return *this;
+}
+
 Ship& Ship::setCurrentVelocity(int vel_)
 {
     if (vel_ > maxVelocity)
@@ -46,6 +53,12 @@ Ship& Ship::setCurrentVelocity(int vel_)
     return *this;
 }
 
+Ship& Ship::setMaxHP(int maxHP_)
+{
+    maxHP = maxHP_;
+    return *this;
+}
+
 Ship& Ship::setCurrentHP(int hp_)
 {
     if (hp_ > maxHP)
@@ -53,6 +66,12 @@ Ship& Ship::setCurrentHP(int hp_)
         throw std::logic_error("HP can't be more than max HP");
     }
     currentHP = hp_;
+    return *this;
+}
+
+Ship& Ship::setCost(int cost_)
+{
+    cost = cost_;
     return *this;
 }
 

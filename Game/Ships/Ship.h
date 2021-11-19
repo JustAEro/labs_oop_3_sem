@@ -18,7 +18,7 @@ struct Captain
 	std::string fullName;
 	CaptainRanks rank;
 
-	Captain() : fullName(""), rank(CaptainRanks::First)
+	Captain() : fullName(std::string("")), rank(CaptainRanks::First)
 	{}
 
 	Captain(const std::string& name, CaptainRanks captainRank) : fullName(name), rank(captainRank)
@@ -87,8 +87,11 @@ public:
 
 	//setters
 	Ship& setCaptain(const Captain& cap_);
+	Ship& setMaxVelocity(int maxVelocity_);
 	Ship& setCurrentVelocity(int vel_);
+	Ship& setMaxHP(int maxHP_);
 	Ship& setCurrentHP(int hp_);
+	Ship& setCost(int cost_);
 	Ship& setCoordinates(const Point& coords_);
 
 	Ship& takeDamage(int damage);
@@ -197,6 +200,9 @@ public:
 
 
 	TransportShip& setWeight(int weight);
+
+
+	virtual ~TransportShip() {};
 };
 
 

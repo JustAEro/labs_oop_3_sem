@@ -10,7 +10,7 @@
 #endif
 
 
-TEST(TestCaseName, TestName) 
+TEST(TestTable, TestTable) 
 {
 	Table tab;
 	ASSERT_TRUE(tab.getShipByID(100) == nullptr);
@@ -26,8 +26,11 @@ TEST(TestCaseName, TestName)
 	
 	BattleTransport* bt = static_cast<BattleTransport*>(sh);
 	bt->addWeapon(BattleTransport::WeaponPlaces::Stern, new Weapon(WeaponTypes::Heavy));
-	bt->removeWeapon(BattleTransport::WeaponPlaces::Stern);
+	bt->addWeapon(BattleTransport::WeaponPlaces::Nose, new Weapon(WeaponTypes::Medium));
 
+	
+	bt->removeWeapon(BattleTransport::WeaponPlaces::Stern);
+	
 	ASSERT_EQ(0, tab.removeShip(id));  //ok
 	ASSERT_EQ(0, tab.getCountOfShips());
 	ASSERT_EQ(-1, tab.removeShip(id));  //not found
