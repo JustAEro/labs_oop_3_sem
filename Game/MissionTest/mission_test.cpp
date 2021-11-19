@@ -13,8 +13,14 @@
 TEST(MissionTest, MissionTest)
 {
 	Mission mission;
-	mission.createBattlePirateShip();
-	ASSERT_EQ(mission.getTablePirates().getCountOfShips(), 1);
+
+	int count = 10;
+	for (int i = 0; i < count; ++i)
+	{
+		mission.createBattlePirateShip();
+	}
+	
+	ASSERT_EQ(mission.getTablePirates().getCountOfShips(), count);
 }
 
 
