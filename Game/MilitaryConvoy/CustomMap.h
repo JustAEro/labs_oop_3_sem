@@ -598,10 +598,10 @@ public:
 	}
 
 
-	MapIterator begin() noexcept { return MapIterator(container.getRoot()); }
+	MapIterator begin() noexcept { return MapIterator(Node<Key, T>::findMin(container.getRoot())); }
 	MapIterator end() noexcept { return MapIterator(nullptr); }
 
-	ConstMapIterator cbegin() const noexcept { return ConstMapIterator(container.getRoot()); }
+	ConstMapIterator cbegin() const noexcept { return ConstMapIterator(Node<Key, T>::findMin(container.getRoot())); }
 	ConstMapIterator cend()  const noexcept { return ConstMapIterator(nullptr); }
 
 	MapReverseIterator rbegin() noexcept { return MapReverseIterator(Node<Key, T>::findMax(container.getRoot())); }
