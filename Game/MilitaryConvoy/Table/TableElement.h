@@ -2,7 +2,8 @@
 #include <array>
 #include <vector>
 #include <utility>
-#include <map>
+//#include <map>
+#include "../CustomMap.h"
 #include "../Ships/Ship.h"
 
 //std::array <char, 6> Aliases = { 'A', 'B', 'C', '1', '2', '3' };
@@ -11,19 +12,20 @@ class TableIterator
 {
 private:
 
-	std::map<int, Ship*>::iterator cur;
+	CustomMap<int, Ship*>::iterator cur;
 
 public:
 	TableIterator() : cur()
 	{}
 
-	TableIterator(const std::map<int, Ship*>::iterator& elPtr) : cur(elPtr)
+	TableIterator(const CustomMap<int, Ship*>::iterator& elPtr) : cur(elPtr)
 	{}
 
 	std::pair<int, Ship*> operator* ()  { return *cur; }
 
-	bool operator== (const TableIterator& it) const { return (it.cur == cur); }
-	bool operator!= (const TableIterator& it) const { return (it.cur != cur); }
+	friend bool operator== (const TableIterator& it_1, const TableIterator& it_2)  { return (it_1.cur == it_2.cur); }
+	friend bool operator!= (const TableIterator& it_1, const TableIterator& it_2) { return !(it_1.cur == it_2.cur); }
+	//bool operator!= (const TableIterator& it) const { return (it != cur); }
 
 	TableIterator& operator++()
 	{
@@ -58,19 +60,21 @@ class ConstTableIterator
 {
 private:
 
-	std::map<int, Ship*>::const_iterator cur;
+	CustomMap<int, Ship*>::const_iterator cur;
 
 public:
 	ConstTableIterator() : cur()
 	{}
 
-	ConstTableIterator(const std::map<int, Ship*>::const_iterator& elPtr) : cur(elPtr)
+	ConstTableIterator(const CustomMap<int, Ship*>::const_iterator& elPtr) : cur(elPtr)
 	{}
 
 	std::pair<int, Ship*> operator* () { return *cur; }
 
-	bool operator== (const ConstTableIterator& it) const { return (it.cur == cur); }
-	bool operator!= (const ConstTableIterator& it) const { return (it.cur != cur); }
+	friend bool operator== (const ConstTableIterator& it_1, const ConstTableIterator& it_2) { return (it_1.cur == it_2.cur); }
+	friend bool operator!= (const ConstTableIterator& it_1, const ConstTableIterator& it_2) { return !(it_1.cur == it_2.cur); }
+	//bool operator== (const ConstTableIterator& it) const { return (it == cur); }
+	//bool operator!= (const ConstTableIterator& it) const { return !(it == cur); }
 
 	ConstTableIterator& operator++()
 	{
@@ -104,19 +108,22 @@ public:
 class TableReverseIterator 
 {
 private:
-	std::map<int, Ship*>::reverse_iterator cur;
+	CustomMap<int, Ship*>::reverse_iterator cur;
 
 public:
 	TableReverseIterator() : cur()
 	{}
 
-	TableReverseIterator(const std::map<int, Ship*>::reverse_iterator& elPtr) : cur(elPtr)
+	TableReverseIterator(const CustomMap<int, Ship*>::reverse_iterator& elPtr) : cur(elPtr)
 	{}
 
 	std::pair<int, Ship*> operator* () { return *cur; }
 
-	bool operator== (const TableReverseIterator& it) const { return (it.cur == cur); }
-	bool operator!= (const TableReverseIterator& it) const { return (it.cur != cur); }
+	friend bool operator== (const TableReverseIterator& it_1, const TableReverseIterator& it_2) { return (it_1.cur == it_2.cur); }
+	friend bool operator!= (const TableReverseIterator& it_1, const TableReverseIterator& it_2) { return !(it_1.cur == it_2.cur); }
+
+	//bool operator== (const TableReverseIterator& it) const { return (it == cur); }
+	//bool operator!= (const TableReverseIterator& it) const { return (it != cur); }
 
 	TableReverseIterator& operator++()
 	{
@@ -149,19 +156,22 @@ public:
 class ConstTableReverseIterator
 {
 private:
-	std::map<int, Ship*>::const_reverse_iterator cur;
+	CustomMap<int, Ship*>::const_reverse_iterator cur;
 
 public:
-	ConstTableReverseIterator() : cur()  //? maybe =delete
-	{}
+	ConstTableReverseIterator() = delete;  //? maybe =delete
+	
 
-	ConstTableReverseIterator(const std::map<int, Ship*>::const_reverse_iterator& elPtr) : cur(elPtr)
+	ConstTableReverseIterator(const CustomMap<int, Ship*>::const_reverse_iterator& elPtr) : cur(elPtr)
 	{}
 
 	std::pair<int, Ship*> operator* () { return *cur; }
 
-	bool operator== (const ConstTableReverseIterator& it) const { return (it.cur == cur); }
-	bool operator!= (const ConstTableReverseIterator& it) const { return (it.cur != cur); }
+	friend bool operator== (const ConstTableReverseIterator& it_1, const ConstTableReverseIterator& it_2) { return (it_1.cur == it_2.cur); }
+	friend bool operator!= (const ConstTableReverseIterator& it_1, const ConstTableReverseIterator& it_2) { return !(it_1.cur == it_2.cur); }
+
+	//bool operator== (const ConstTableReverseIterator& it) const { return (it == cur); }
+	//bool operator!= (const ConstTableReverseIterator& it) const { return (it != cur); }
 
 	ConstTableReverseIterator& operator++()
 	{
@@ -199,7 +209,7 @@ class Table
 	friend class ConstTableReverseIterator;
 
 private:
-	std::map<int, Ship*> tableElements;
+	CustomMap<int, Ship*> tableElements;
 
 public:
 	using iterator = TableIterator;
@@ -210,7 +220,7 @@ public:
 	Table() : tableElements{}
 	{}
 
-	Table(const std::map<int, Ship*>& elements_) : tableElements(elements_)
+	Table(const CustomMap<int, Ship*>& elements_) : tableElements(elements_)
 	{}
 
 	Ship* getShipByID(int id) const;

@@ -1,11 +1,12 @@
 /// @cond
+#pragma once
 
 #include <gtest/gtest.h>
 #include "../MilitaryConvoy/Table/TableElement.h"
 
 
 
-TEST(TestTable, TestTable) 
+TEST(TableTest, TestTable) 
 {
 	Table tab;
 	ASSERT_TRUE(tab.getShipByID(100) == nullptr);
@@ -30,6 +31,7 @@ TEST(TestTable, TestTable)
 	ASSERT_EQ(0, tab.getCountOfShips());
 	ASSERT_EQ(-1, tab.removeShip(id));  //not found
 }
+
 
 
 /// @endcond

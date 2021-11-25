@@ -32,7 +32,7 @@ int Table::addShip(Ship* ship_)
 
 int Table::removeShip(int id)
 {
-	std::map<int, Ship*>::iterator it = tableElements.find(id);
+	CustomMap<int, Ship*>::iterator it = tableElements.find(id);
 
 	if (Table::iterator(it) == tableElements.end())
 	{
@@ -46,7 +46,7 @@ int Table::removeShip(int id)
 
 Ship* Table::getShipByID(int id) const
 {
-	std::map<int, Ship*>::const_iterator it = tableElements.find(id);
+	CustomMap<int, Ship*>::const_iterator it = tableElements.find(id);
 
 	if (Table::const_iterator(it) == Table::cend())
 	{

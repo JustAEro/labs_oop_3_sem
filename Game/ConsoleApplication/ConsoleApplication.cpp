@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "../MilitaryConvoy/Mission/Mission.h"
+#include "../MilitaryConvoy/CustomMap.h"
 
 #if defined(_MSC_VER) && !defined(__INTEL_COMPILER)
 //-----includes for debugging memory leaks in VS-----/
@@ -24,6 +25,16 @@ int main()
 	{
 		mission.createBattlePirateShip();
 	}
+
+	BinaryTree<int, std::string> tree;
+	
+	tree.insert(std::make_pair(5, "sd"));
+	tree.insert(std::make_pair(6, "qw"));
+	tree.insert(std::make_pair(4, "we"));
+	tree.insert(std::make_pair(10, "p"));
+	tree.insert(std::make_pair(3, "eww"));
+
+	tree.draw();
 
     std::cout << "Hello World!\n";
 }

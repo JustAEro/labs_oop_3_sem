@@ -1,4 +1,5 @@
 /// @cond
+#pragma once
 
 #include <gtest/gtest.h>
 #include "../MilitaryConvoy/Ships/Ship.h"

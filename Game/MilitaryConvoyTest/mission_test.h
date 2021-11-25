@@ -1,5 +1,7 @@
 /// @cond
 
+#pragma once
+
 #include <gtest/gtest.h>
 #include <vector>
 #include "../MilitaryConvoy/Mission/Mission.h"
