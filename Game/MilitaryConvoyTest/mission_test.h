@@ -26,7 +26,15 @@ TEST(MissionTest, MissionTest)
 	for (Table::const_iterator it = tab_pirates.cbegin(); it != tab_pirates.cend(); ++it)
 	{
 		ASSERT_EQ((*it).second->getType(), ShipTypes::SecurityShip);
-		SecurityShip* cur_ship = static_cast<SecurityShip*>( (*it).second );
+		ASSERT_TRUE(nullptr != dynamic_cast<SecurityShip*>((*it).second));
+		Ship* s = (*it).second;
+		SecurityShip* sh = dynamic_cast<SecurityShip*>(s);
+		//auto& k = typeid(SecurityShip*);
+		//auto& k2 = typeid(s);
+		//auto& p = new SecurityShip();
+		//auto b = new BattleTransport();
+		//intt j = 8;
+		//SecurityShip* cur_ship = static_cast<SecurityShip*>( (*it).second );
 	}
 
 }

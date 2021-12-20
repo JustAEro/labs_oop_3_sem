@@ -5,10 +5,25 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 
+#include "../MilitaryConvoy/Mission/Mission.h"
+
 #include <iostream>
 #include <vector>
 #include <ctime>
+#include <utility>
 
+
+constexpr float PI = 3.14159265358979323846;
+
+inline float degreesToRadians(float degrees)
+{
+	return degrees * PI / 180;
+}
+
+inline float radiansToDegrees(float radians)
+{
+	return radians * 180 / PI;
+}
 
 /*
 * Class that acts the game engine.
@@ -27,6 +42,11 @@ private:
 	//Textures
 	sf::Texture waterTexture;  //texture of water background
 	sf::Texture shipTexture;   //texture of ship (TODO: Type of ship?)
+	sf::Texture pauseTexture;
+	sf::Texture baseATexture;
+	sf::Texture baseBTexture;
+	sf::Texture winGameTexture;
+	sf::Texture loseGameTexture;
 
 	//Mouse positions
 	sf::Vector2i mousePosWindow;
@@ -34,15 +54,22 @@ private:
 
 
 	//Game logic
-	int points;
+	bool isPaused;
+	bool isWin;
+	bool isLose;
+	//int points;
 	double enemySpawnTimer;
 	double enemySpawnTimerMax;
-	int maxEnemies;
+	size_t maxEnemies;
+	int activeShipIndex;
 
 
 	//Game objects
 	   //sf::Sprite
-	std::vector<sf::Sprite> enemies;
+	sf::Sprite baseASprite;
+	sf::Sprite baseBSprite;
+	std::vector <std::pair<sf::Sprite, int> > spritesAndIDsOfShips;
+	Mission* mission;
 	//sf::RectangleShape enemy;
 
 
@@ -52,6 +79,9 @@ private:
 	void initWindow();
 	void initEnemies();
 	void pollEvents();
+
+	bool isSpriteOutOfWindow(const sf::Sprite& sprite);
+
 
 public:
 	//Constructors / Destructors
@@ -67,10 +97,14 @@ public:
 	void updateMousePositions();
 
 	void updateEnemies();
+	//void updatePause();
 	void update();
 
+	void renderPause();
 	void renderWater();
+	void renderBases();
 	void renderEnemies();
+	void renderEndGame();
 	void render();
 
 };

@@ -85,8 +85,8 @@ public:
 		
 	//getters
 	const Captain& getCommander()	const noexcept { return commander; }
-	const Table& getTableConvoy()	const noexcept { return tableConvoy; }
-	const Table& getTablePirates()  const noexcept { return tablePirates; }
+	Table& getTableConvoy()	noexcept { return tableConvoy; }
+	Table& getTablePirates()        noexcept { return tablePirates; }
 	int getMoneyAmountForMission()  const noexcept { return moneyAmountForMission; }
 	int getAllWeight()				const noexcept { return allWeight; }
 	int getMinWeightToCarry()		const noexcept { return minWeightToCarry; }
@@ -101,8 +101,8 @@ public:
 
 	//setters
 	Mission& setCommander(const Captain& commander_)				{ commander = commander_; }
-	Mission& setTableConvoy(const Table& tableConvoy_)				{ tableConvoy = tableConvoy_; }
-	Mission& setTablePirates(const Table& tablePirates_)			{ tablePirates = tablePirates_; }
+	//Mission& setTableConvoy(const Table& tableConvoy_)				{ tableConvoy = tableConvoy_; }
+	//Mission& setTablePirates(const Table& tablePirates_)			{ tablePirates = tablePirates_; }
 	Mission& setMoneyAmountForMission(int moneyAmountForMission_)	{ moneyAmountForMission = moneyAmountForMission_; }
 	Mission& setAllWeight(int allWeight_)							{ allWeight = allWeight_; }
 	Mission& setMinWeightToCarry(int minWeightToCarry_)				{ minWeightToCarry = minWeightToCarry_; }

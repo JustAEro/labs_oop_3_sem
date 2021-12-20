@@ -28,15 +28,75 @@ int main()
 
 	BinaryTree<int, std::string> tree;
 	
-	tree.insert(std::make_pair(5, "sd"));
-	tree.insert(std::make_pair(6, "qw"));
-	tree.insert(std::make_pair(4, "we"));
-	tree.insert(std::make_pair(10, "p"));
-	tree.insert(std::make_pair(3, "eww"));
+	tree.insert(std::make_pair(5, "we"));
+	tree.insert(std::make_pair(6, "th"));
+	tree.insert(std::make_pair(4, "dvc"));
+	tree.insert(std::make_pair(10, "lph"));
+	tree.insert(std::make_pair(3, "nv"));
 
 	tree.draw();
+	std::cout << "Count = " << tree.getCount() << "\n";
 
-    std::cout << "Hello World!\n";
+
+	std::cout << "\n\n\n";
+	BinaryTree<int, std::string> treeCopy(tree);
+	treeCopy.draw();
+	std::cout << "Count = " << treeCopy.getCount() << "\n";
+
+
+
+	std::cout << "\n\n\n";
+
+	tree.remove(5);
+	tree.draw();
+
+
+	std::cout << "\n\n\n";
+	BinaryTree<int, std::string> treeCopy2(tree);
+	treeCopy2.draw();
+	std::cout << "Count = " << treeCopy2.getCount() << "\n";
+	std::cout << "Copy2 of tree\n";
+
+
+	tree = treeCopy2;
+	std::cout << "\n\n\n" << "Old tree after assignment to 2 copy\n";
+	tree.draw();
+	std::cout << "Count = " << tree.getCount() << "\n";
+
+
+	tree = treeCopy;
+	std::cout << "\n\n\n" << "Old tree after assignment to 1 copy\n";
+	tree.draw();
+	std::cout << "Count = " << tree.getCount() << "\n";
+
+
+	CustomMap<int, std::string> map;
+	for (int i = 0; i < 10; ++i)
+	{
+		map.insert(std::make_pair(i, "str"));
+	}
+	for (const auto& el : map)
+	{
+		std::cout << "(" << el.first << ", " << el.second << ")\n";
+	}
+
+
+	std::cout << "\nCopy 1 of map\n";
+	auto mapCopy(map);
+	for (const auto& el : mapCopy)
+	{
+		std::cout << "(" << el.first << ", " << el.second << ")\n";
+	}
+
+	std::cout << "\nMove of copy 1 of map\n";
+	auto moveCopy(std::move(mapCopy));
+	for (const auto& el : moveCopy)
+	{
+		std::cout << "(" << el.first << ", " << el.second << ")\n";
+	}
+
+
+    std::cout << "\nHello World!\n";
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"

@@ -119,9 +119,71 @@ private:
 	}
 
 	
+	Node<Key, T>* copyTree(const BinaryTree& bt)
+	{
+		root = copyTreeTravelsal(bt.root);
+		return root;
+	}
+
+	Node<Key, T>* copyTreeTravelsal(Node<Key, T>* root)
+	{
+		if (!root) return nullptr;
+		this->insert(root->keyAndValue);
+		copyTreeTravelsal(root->left);
+		copyTreeTravelsal(root->right);
+		return this->root;
+	}
+
+	
 
 public:
 	BinaryTree() : root(nullptr), count(0) {}
+
+	BinaryTree(const BinaryTree& bt) : root(copyTree(bt)) {}	// add copy constructor
+	BinaryTree(BinaryTree&& bt) noexcept: root(bt.root), count(bt.count) 	// add moving constructor
+	{
+		bt.root = nullptr;
+	}
+
+	BinaryTree& operator= (const BinaryTree& bt)
+	{
+		if (this == &bt)
+		{
+			return *this;
+		}
+
+		if (root != nullptr)
+		{
+			deleteTraversal(root);
+			root = nullptr;
+			count = 0;
+		}
+
+		root = copyTree(bt);
+		return *this;
+	}
+
+	BinaryTree& operator= (BinaryTree&& bt) noexcept
+	{
+		if (this == &bt)
+		{
+			return *this;
+		}
+		
+		if (root != nullptr)
+		{
+			deleteTraversal(root);
+			root = nullptr;
+			count = 0;
+		}
+
+		root = bt.root;
+		count = bt.count;
+		
+		bt.root = nullptr;
+		return *this;
+	}
+
 
 	Node<Key, T>* getRoot() const { return root; }
 	int getCount() const { return count; }
