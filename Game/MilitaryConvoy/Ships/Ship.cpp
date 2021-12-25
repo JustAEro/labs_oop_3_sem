@@ -23,10 +23,10 @@ bool operator!= (const Point& p1, const Point& p2)
 }
 
 
-double distanceBetweenTwoPoints(const Point& a, const Point& b)
+float distanceBetweenTwoPoints(const Point& a, const Point& b)
 {
-    int dx = a.x - b.x;
-    int dy = a.y - b.y;
+    float dx = a.x - b.x;
+    float dy = a.y - b.y;
     return sqrt(dx * dx + dy * dy);
 }
 
@@ -53,18 +53,19 @@ Ship& Ship::setCurrentVelocity(int vel_)
     return *this;
 }
 
-Ship& Ship::setMaxHP(int maxHP_)
+Ship& Ship::setMaxHP(float maxHP_)
 {
     maxHP = maxHP_;
     return *this;
 }
 
-Ship& Ship::setCurrentHP(int hp_)
+Ship& Ship::setCurrentHP(float hp_)
 {
     if (hp_ > maxHP)
     {
         throw std::logic_error("HP can't be more than max HP");
     }
+    
     currentHP = hp_;
     return *this;
 }

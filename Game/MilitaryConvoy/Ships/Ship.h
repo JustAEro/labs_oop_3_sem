@@ -40,18 +40,18 @@ enum class ShipTypes
 
 struct Point
 {
-	int x;
-	int y;
+	float x;
+	float y;
 
 	Point() : x(0), y(0) {}
-	Point(int x_, int y_): x(x_), y(y_) {}
+	Point(float x_, float y_): x(x_), y(y_) {}
 
 };
 
 bool operator== (const Point& p1, const Point& p2);
 bool operator!= (const Point& p1, const Point& p2);
 
-double distanceBetweenTwoPoints(const Point& a, const Point& b);
+float distanceBetweenTwoPoints(const Point& a, const Point& b);
 
 
 
@@ -68,14 +68,14 @@ protected:
 	Captain captain;
 	int maxVelocity;
 	int currentVelocity;
-	int maxHP;
-	int currentHP;
+	float maxHP;
+	float currentHP;
 	int cost;
 	Point coordinatesOfShip;  //? maybe better in Ship.h ?
 
 public:
 	
-	Ship(const Captain& cap, int maxVel, int maxHPForType, int costOfType, const Point& coords) : 
+	Ship(const Captain& cap, int maxVel, float maxHPForType, int costOfType, const Point& coords) : 
 		captain(cap), maxVelocity(maxVel), currentVelocity(0), maxHP(maxHPForType), currentHP(maxHPForType),
 		cost(costOfType), coordinatesOfShip(coords)
 	{}
@@ -86,8 +86,8 @@ public:
 	const Captain& getCaptain() const noexcept { return captain; }
 	int getMaxVelocity() const noexcept { return maxVelocity; }    //! make virtual
 	int getCurrentVelocity() const noexcept { return currentVelocity; }
-	int getMaxHP() const noexcept { return maxHP; }
-	int getCurrentHP() const noexcept { return currentHP; }
+	float getMaxHP() const noexcept { return maxHP; }
+	float getCurrentHP() const noexcept { return currentHP; }
 	int getCost() const noexcept { return cost; }
 	const Point& getCoordinates() const noexcept { return coordinatesOfShip; }
 
@@ -96,8 +96,8 @@ public:
 	Ship& setCaptain(const Captain& cap_);
 	Ship& setMaxVelocity(int maxVelocity_);
 	Ship& setCurrentVelocity(int vel_);
-	Ship& setMaxHP(int maxHP_);
-	Ship& setCurrentHP(int hp_);
+	Ship& setMaxHP(float maxHP_);
+	Ship& setCurrentHP(float hp_);
 	Ship& setCost(int cost_);
 	Ship& setCoordinates(const Point& coords_);
 
@@ -232,7 +232,7 @@ public:
 	};
 
 	static constexpr int DEFAULT_MAX_VELOCITY = 2;
-	static constexpr int DEFAULT_MAX_HP = 200;
+	static constexpr float DEFAULT_MAX_HP = 200.f;
 	static constexpr int DEFAULT_COST = 500;
 	static constexpr int DEFAULT_MAX_WEIGHT = 10;
 	static constexpr int DEFAULT_RATIO = 1;
